@@ -93,6 +93,7 @@
 {% endblock %}
 
 {% block javascripts %}
+
     <script>
         var etudiants = JSON.stringify({{ etudiants|json_encode|raw }});
         var non_etudiants = JSON.stringify({{ non_etudiants|json_encode|raw }});
