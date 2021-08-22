@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departement Sante{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Santé</a> </div>
+
+        </div>
+        <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5 class="pull-left">{{app.request.get('situation')}}</h5>
+                        <span class="btn btn-primary pull-right"><a href="{{ path('app_dashboard_commity_create') }}"><i class="icon-plus"></i> Ajouter {{app.request.get('situation')}}</a></span>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nom de Famille</th>
+                                    <th>Prenom de Famille</th>
+                                    <th>Sexe</th>
+                                    <th>Date de Naissance</th>
+                                    <th>Lieu de Naissance</th>
+                                    <th>Nationalite</th>
+                                    <th>Document Voyage</th>
+                                    <th>Numero Passport</th>
+                                    <th>Numero Cin</th>
+                                    <th>Situation Marital</th>
+                                    <th>Situation Familliale</th>
+                                    <th>Numero Phone</th>
+                                    <th>Adresse Email</th>
+                                    <th>Photo</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for commity in commities %}
+                                <tr>
+                                    <td>{{ commity.id }}</td>
+                                    <td>{{ commity.nomFamille }}</td>
+                                    <td>{{ commity.prenomFamille }}</td>
+                                    <td>{{ commity.sexe }}</td>
+                                    <td>{{ commity.dateNaissance ? commity.dateNaissance|date('Y-m-d') : '' }}</td>
+                                    <td>{{ commity.lieuNaissance }}</td>
+                                    <td>{{ commity.nationalite }}</td>
+                                    <td>{{ commity.documentVoyage }}</td>
+                                    <td>{{ commity.numeroPassport }}</td>
+                                    <td>{{ commity.numeroCin }}</td>
+                                    <td>{{ commity.situationMarital }}</td>
+                                    <td>{{ commity.situationFamiliale }}</td>
+                                    <td>{{ commity.numeroPhone }}</td>
+                                    <td>{{ commity.adresseEmail }}</td>
+                                    <td>{{ commity.image }}</td>
+                                    <td>
+                                        <a data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a href="{{ path('app_dashboard_commity_edit', {'id': commity.id}) }}"><i class="icon-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="15">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/jquery.min.js') }}"></script> 
+<script src="{{ asset('js/matrix.tables.js') }}"></script>
+<script>
+    function showOpen(path, id){
+        console.log(path)
+        
+        
+    }
+</script>
+{% endblock %}
+
+{% block modal %}
+    {{ include('commity/_modal.html.twig') }}
+{% endblock %}

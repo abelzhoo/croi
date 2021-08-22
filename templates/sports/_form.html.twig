@@ -1,0 +1,56 @@
+
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+        <h1>DEPARTEMENT SPORT</h1>
+    </div>
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <h5>Ajouter Sport</h5>
+                    </div>
+                    {{ form_start(form) }}
+                    <div class="widget-content">
+                        <div class="control-group">
+                            <label class="control-label">Vous pratiquez du sport ? :</label>
+                            <div class="controls">
+                                {{ form_widget(form.pratiqueSport, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Sport :</label>
+                            <div class="controls">
+                                {{ form_widget(form.nomSport, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Fréquence :</label>
+                            <div class="controls">
+                                    {{ form_widget(form.frequenceSport, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Pratiquez vous un loisir qui requiert un exercice physique ? :</label>
+                            <div class="controls">
+                                {{ form_widget(form.pratiqueLoisir, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Loisir :</label>
+                            <div class="controls">
+                                {{ form_widget(form.nomLoisir, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

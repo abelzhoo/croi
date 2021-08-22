@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Commity{% endblock %}
+
+{% block stylesheets  %}
+  <link rel="stylesheet" href="{{ asset('css/jquery.steps.css') }}" />
+{% endblock %}
+
+{% block content %}
+     {{ include('commity/_form.html.twig') }}  
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/jquery.min.js') }}"></script> 
+<script src="{{ asset('js/jquery.steps.min.js') }}"></script> 
+    <script>
+      /*let form = $("#wizard");
+
+      form.children("div").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        onFinished: function(event, current){
+          console.log(current);
+          alert('test')
+          form.submit();
+        }
+      })
+
+      let form = $("#wizard");
+
+      form.validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password"
+            }
+        }
+        });
+
+      form.children("div").steps({
+          headerTag: "h2",
+          bodyTag: "section",
+          transitionEffect: "slideLeft",
+          onStepChanging: function (event, currentIndex, newIndex)
+          {
+              form.validate().settings.ignore = ":disabled,:hidden";
+              return form.valid();
+          },
+          onFinishing: function (event, currentIndex)
+          {
+              form.validate().settings.ignore = ":disabled";
+              return form.valid();
+          },
+          onFinished: function (event, currentIndex)
+          {
+            form.submit();
+          }
+      });*/
+
+    </script>
+{% endblock %}

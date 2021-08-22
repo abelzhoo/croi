@@ -1,0 +1,55 @@
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+        <h1>DEPARTEMENT SOCIAL</h1>
+    </div>
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <h5>Ajouter Social</h5>
+                    </div>
+                    {{ form_start(form) }}
+                    <div class="widget-content">
+                        <div class="control-group">
+                            <label class="control-label">Aide Nourriture :</label>
+                            <div class="controls">
+                                {{ form_widget(form.aideNourriture, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Aide Education :</label>
+                            <div class="controls">
+                                {{ form_widget(form.aideEducation, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Aide Social :</label>
+                            <div class="controls">
+                                    {{ form_widget(form.aideSocial, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Aide Sante :</label>
+                            <div class="controls">
+                                {{ form_widget(form.aideSante, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Aide Travail :</label>
+                            <div class="controls">
+                                {{ form_widget(form.aideTravail, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
