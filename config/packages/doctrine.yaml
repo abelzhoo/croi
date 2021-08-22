@@ -1,6 +1,5 @@
 doctrine:
     dbal:
-        charset: utf8
         url: '%env(resolve:DATABASE_URL)%'
         charset: UTF8
         options:

@@ -14,11 +14,9 @@ class ErrorController extends AbstractController
      */
     public function show(Request $request): Response
     {
-        if($this->createAccessDeniedException()){
-            return $this->render("errors/error403.html.twig");
-        }else if($this->createNotFoundException()){
-            return $this->render("errors/error404.html.twig");
-        }
+        
+        return $this->render("bundles/TwigBundle/Exception/error.html.twig");
+        
     }
 
 }
