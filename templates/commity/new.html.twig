@@ -61,6 +61,7 @@
           $collectionEducation.find('li').each(function(){
             addEducationDeleteLink($(this));
           });
+
           $collectionEducation.append($nouveauEducation);
           $collectionEducation.data('index', $collectionEducation.find('input').length);
           $boutonAjouterEducation.on('click', function(e){
@@ -96,7 +97,8 @@
           $collectionSport.find('li').each(function(){
             addSportDeleteLink($(this));
           });
-          $collectionSport.append($collectionSport);
+
+          $collectionSport.append($nouveauSport);
           $collectionSport.data('index', $collectionSport.find('input').length);
           $boutonAjouterSport.on('click', function(e){
             addSportForm($collectionSport, $nouveauSport);
@@ -122,6 +124,41 @@
           }
         });
 
+        let $collectionProfession;
+        let $boutonAjouterProfession = $('<button type="button" class="add_sport_link"><i class="icon-plus"></i></button>');
+        let $nouveauProfession = $('<li></li>').append($boutonAjouterProfession);
+
+        jQuery(document).ready(function() {
+          $collectionProfession = $('ul.professions');
+          $collectionProfession.find('li').each(function(){
+            addProfessionDeleteLink($(this));
+          });
+
+          $collectionProfession.append($nouveauProfession);
+          $collectionProfession.data('index', $collectionProfession.find('input').length);
+          $boutonAjouterProfession.on('click', function(e){
+            addProfessionForm($collectionProfession, $nouveauProfession);
+          });
+
+          function addProfessionForm($collectionProfession, $newLinkLi){
+            let prototypeProfession = $collectionProfession.data('prototype');
+            let indexProfession = $collectionProfession.data('index');
+            let newFormProfession = prototypeProfession;
+            newFormProfession = newFormProfession.replace(/__name__/g, indexProfession);
+            $collectionProfession.data('index', indexProfession + 1);
+            let $newFormLiProfession = $('<li></li>').append(newFormProfession);
+            $newLinkLi.before($newFormLiProfession);
+            addProfessionDeleteLink($newFormLiProfession);
+          }
+
+          function addProfessionDeleteLink($tagFormLi){
+            let $removeFormButton = $('<button type="button"><i class="icon-trash"></i></button>');
+            $tagFormLi.append($removeFormButton);
+            $removeFormButton.on('click', function(e){
+              $tagFormLi.remove();
+            })
+          }
+        });
       })()
 
       /*let form = $("#wizard");

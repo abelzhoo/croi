@@ -88,15 +88,13 @@ class CommityType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true
             ])
-            ->add('save', SubmitType::class, ['label' => 'Ajouter Commité', 'attr' => ['class' => 'btn btn-success']]);
-            /* 
             ->add('profession', CollectionType::class, [
                 'entry_type' => ProfessionType::class,
+                'entry_options' =>  ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true
             ])
-            
-            ;*/
+            ->add('save', SubmitType::class, ['label' => 'Ajouter Commité', 'attr' => ['class' => 'btn btn-success']]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

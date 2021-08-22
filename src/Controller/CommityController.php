@@ -74,6 +74,22 @@ class CommityController extends AbstractController
             foreach($datas as $data){
                 $commity->addPossession($data);
             }
+
+            $datasEducations = $commity->getEtudiant();
+            foreach($datasEducations as $data){
+                $commity->addEtudiant($data);
+            }
+
+            $datasSports = $commity->getSport();
+            foreach($datasSports as $data){
+                $commity->addSport($data);
+            }
+
+            $datasProfessions = $commity->getProfession();
+            foreach($datasProfessions as $data){
+                $commity->addProfession($data);
+            }
+            
             $entityManager->persist($commity);
             $entityManager->flush();
             return $this->redirectToRoute('app_dashboard_commity_read', [], Response::HTTP_SEE_OTHER);
