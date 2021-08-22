@@ -57,7 +57,7 @@ class CommityController extends AbstractController
 
 
     /**
-     * @Route("/new", name="app_dashboard_commity_new", methods={"POST"})
+     * @Route("/new", name="app_dashboard_commity_new", methods={"GET","POST"})
      */
     public function new(Request $request):Response
     {
@@ -75,7 +75,10 @@ class CommityController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('app_dashboard_commity_read', [], Response::HTTP_SEE_OTHER);
         }
-        return new Response('test');
+        return $this->render('commity/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+        //return new Response('test');
     }
 
     /**
