@@ -25,14 +25,12 @@ class CommityRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = 
-            "SELECT  COUNT(*) as total, DATE_FORMAT(e.date_debut, '%Y') as debut FROM `commity`as c LEFT JOIN education as e ON c.id = e.commity_id GROUP BY debut";
+        $sql = "SELECT  COUNT(*) as total, DATE_FORMAT(e.annee_scolaire, '%Y') as debut 
+            FROM `commity`as c LEFT JOIN education as e ON c.id = e.commity_id GROUP BY debut";
 
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAllAssociative();
-
-        
     }
 
     // /**
