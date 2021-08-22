@@ -40,7 +40,7 @@ class SantesController extends AbstractController
             $entityManager->persist($sante);
             $entityManager->flush();
 
-            return $this->redirectToRoute('santes_index');
+            return $this->redirectToRoute('app_dashboard_read_sante');
         }
 
         return $this->render('santes/new.html.twig', [
@@ -73,7 +73,7 @@ class SantesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('santes_index');
+            return $this->redirectToRoute('app_dashboard_read_sante');
         }
 
         return $this->render('santes/edit.html.twig', [
@@ -93,6 +93,6 @@ class SantesController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('santes_index');
+        return $this->redirectToRoute('app_dashboard_read_sante');
     }
 }
