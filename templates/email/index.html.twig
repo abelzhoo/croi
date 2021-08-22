@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div id="page-inner">
+    <div class="row">
+        <div class="col-md-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="card-title">
+                        <div class="title text-center">ENVOI D'EMAIL</div>
+                    </div>
+                </div>
+            <div>
+            {% for message in app.flashes('success') %}
+            <div class="header ">
+                <ol class="breadcrumb">
+                    <p class="text-center text-success">{{ message }}</p>
+                </ol>
+            </div>
+            {% endfor %}  
+            {{ form_start(contactForm) }}  
+            </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="contactform-group col-sm-offset-2 col-md-8">
+                            <div class="sub-title">Email</div>
+                            {{ form_widget(contactForm.email, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="contactform-group col-sm-offset-2 col-md-8">
+                            <div class="sub-title">Message</div>
+                            {{ form_widget(contactForm.message, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="contactform-group">
+                            <div class="col-sm-offset-5 col-sm-6">
+                                {{ form_widget(contactForm.envoyer, {'attr': {'class': 'btn btn-primary'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             {{ form_end(contactForm) }}
+        </div>
+    </div>
+</div
+{% endblock %}
+

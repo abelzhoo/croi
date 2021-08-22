@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  <meta content="" name="description" />
+    <title>RECENSEMENT CROI</title>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/matrix-style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/matrix-media.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+  {# app.request.requestUri #}
+    {% if app.user != null %}
+    <div id="header">
+      <h1><a href="dashboard.html">RECENSEMENT CROI</a></h1>
+    </div>
+
+    <div id="user-nav" class="navbar navbar-inverse">
+      <ul class="nav">
+        <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Bonjour {{ app.user.fname }}</span><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><i class="icon-user"></i> Mon profil</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ path('app_logout') }}"><i class="icon-key"></i> Déconnexion</a></li>
+          </ul>
+        </li>
+        <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
+            <li class="divider"></li>
+            <li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
+            <li class="divider"></li>
+            <li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
+            <li class="divider"></li>
+            <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div id="search">
+      <input type="text" placeholder="Search here..."/>
+      <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+    </div>
+
+    <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> ACCUEIL</a>
+      <ul>
+        <li {% if app.request.get('_route') == "app_dashboard_home" %} class="active" {% endif %}>
+            <a href="{{ path('app_dashboard_home') }}"><i class="icon icon-home"></i> <span>Accueil</span></a>
+        </li>
+        <li class="submenu">
+          {% if is_granted('ROLE_ADMIN') %}
+            <a href="#"><i class="icon icon-list"></i><span>MEMBRE DU COMMITE</span></a>
+            <ul>
+              <li>
+                <a href="{{ path('app_dashboard_dad_read' , {'situation': 'pere'}) }}">PERE</a>
+              </li>
+              <li>
+                <a href="{{ path('app_dashboard_dad_read', {'situation': 'mere'}) }}">MERE</a>
+              </li>
+              <li>
+                <a href="{{ path('app_dashboard_dad_read', {'situation': 'enfant'}) }}">ENFANTS</a>
+              </li>
+          </ul>
+          {% endif %}
+        </li>
+        
+        <li {% if app.request.get('_route') == "app_dashboard_read_sante" %} class="active" {% endif %}>
+            {% if is_granted('ROLE_SANTE') %}
+              <a href="{{ path('app_dashboard_read_sante') }}"><i class="icon icon-signal"></i> <span>DEPARTEMENT SANTE</span></a> </li>
+            {% endif %}
+        </li>
+        
+        <li {% if app.request.get('_route') == "app_dashboard_logement_read" %} class="active" {% endif %}>
+          {% if is_granted('ROLE_LOGEMENT') %}
+            <a href="{{ path('app_dashboard_logement_read') }}"><i class="icon icon-inbox"></i> <span>DEPARTEMENT LOGEMENT</span></a>
+          {% endif %}
+        </li>
+        <li {% if app.request.get('_route') == "app_dashboard_education_read" %} class="active" {% endif %}>
+          {% if is_granted('ROLE_EDUCATION') %}
+            <a href="{{ path('app_dashboard_education_read') }}"><i class="icon icon-th"></i> <span>DEPARTEMENT EDUCATION</span></a>
+          {% endif %}
+        </li>
+        <li {% if app.request.get('_route') == "app_dashboard_profession" %} class="active" {% endif %}>
+          {% if is_granted('ROLE_COMMERCE') %}
+            <a href="{{ path('app_dashboard_profession') }}"><i class="icon icon-fullscreen"></i> <span>DEPARTEMENT COMMERCE</span></a>
+          {% endif %}
+        </li>
+        <li {% if app.request.get('_route') == "app_dashboard_social_read" %} class="active" {% endif %}>
+          {% if is_granted('ROLE_SOCIAL') %}
+            <a href="{{ path('app_dashboard_social_read') }}"><i class="icon icon-fullscreen"></i> <span>DEPARTEMENT SOCIAL</span></a>
+          {% endif %}
+        </li>
+        <li {% if app.request.get('_route') == "app_dashboard_sport" %} class="active" {% endif %}>
+          {% if is_granted('ROLE_SPORT') %}
+            <a href="{{ path('app_dashboard_sport') }}"><i class="icon icon-fullscreen"></i> <span>DEPARTEMENT SPORT</span></a>
+          {% endif %}
+        </li>
+        <li {% if app.request.get('_route') == "app_dashboard_tabligh" %} class="active submenu" {% endif %}> 
+          {% if is_granted('ROLE_TABLIGH') %}
+            <a href="{{ path('app_dashboard_tabligh') }}"><i class="icon icon-th-list"></i> <span>DEPARTEMENT TABLIGH</span> <span class="label label-important"></span></a>
+          {% endif %}
+        </li>
+        <li class="submenu"> <a href="#"><i class="icon icon-info-sign"></i> <span>Error</span> <span class="label label-important">4</span></a>
+          <ul>
+            <li><a href="error403.html">Error 403</a></li>
+            <li><a href="error404.html">Error 404</a></li>
+            <li><a href="error405.html">Error 405</a></li>
+            <li><a href="error500.html">Error 500</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+      {% block content %}{% endblock %}
+    <div class="row-fluid">
+      <div id="footer" class="span12"> 2021 &copy; Croi Recensement</div>
+    </div>
+    {% else %}
+      {% block body %}{% endblock %}
+    {% endif %}
+
+     {% block modal %}{% endblock %}
+     <script src="{{ asset('js/jquery.min.js') }}"></script> 
+    <script src="{{ asset('js/jquery.ui.custom.js') }}"></script> 
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script> 
+    <script src="{{ asset('js/jquery.flot.min.js') }}"></script> 
+    <script src="{{ asset('js/jquery.flot.resize.min.js') }}"></script> 
+    <script src="{{ asset('js/jquery.peity.min.js') }}"></script> 
+    <script src="{{ asset('js/matrix.js') }}"></script> 
+    <script src="{{ asset('js/matrix.dashboard.js') }}"></script> 
+    <script src="{{ asset('js/matrix.interface.js') }}"></script> 
+    <script src="{{ asset('js/matrix.chat.js') }}"></script> 
+    <script src="{{ asset('js/matrix.form_validation.js') }}"></script> 
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script> 
+    
+    {% block javascripts %}{% endblock %}
+  </body>
+</html>

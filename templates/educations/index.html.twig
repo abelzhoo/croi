@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departement Sante{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Santé</a> </div>
+            <h1>DEPARTEMENT EDUCATION</h1>
+        </div>
+        <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5 class="pull-left">Education</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>NomEcole</th>
+                                    <th>NomUniversite</th>
+                                    <th>Classe</th>
+                                    <th>CarteEtudiant</th>
+                                    <th>AdresseEcole</th>
+                                    <th>AdresseUniversite</th>
+                                    <th>Diplome</th>
+                                    <th>AnneeScolaire</th>
+                                    <th>NomPays</th>
+                                    <th>Province</th>
+                                    <th>NiveauEtude</th>
+                                    <th>Aide Education ?</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for education in educations %}
+                                <tr>
+                                    <td>{{ education.id }}</td>
+                                    <td>{{ education.nomEcole }}</td>
+                                    <td>{{ education.nomUniversite }}</td>
+                                    <td>{{ education.classe }}</td>
+                                    <td>{{ education.carteEtudiant }}</td>
+                                    <td>{{ education.adresseEcole }}</td>
+                                    <td>{{ education.adresseUniversite }}</td>
+                                    <td>{{ education.diplome }}</td>
+                                    <td>{{ education.anneeScolaire|date('Y-m-d') }}</td>
+                                    <td>{{ education.nomPays ? education.nomPays|join(', ') : '' }}</td>
+                                    <td>{{ education.province ? education.province|join(', ') : '' }}</td>
+                                    <td>{{ education.niveauEtude }}</td>
+                                    <td>{{ education.aideEducation }}</td>
+                                    <td>
+                                        <a onClick="showModalId('{{education.id}}', '{{ path('app_dashboard_education_show', {'id': education.id}) }}')" href="{{ path('app_dashboard_education_show', {'id': education.id}) }}" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a href="{{ path('app_dashboard_education_edit', {'id': education.id}) }}"><i class="icon-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="17">Pas de donnée</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('js/jquery.min.js') }}"></script> 
+<script src="{{ asset('js/matrix.tables.js') }}"></script>
+<script>
+    function showModalId(id, pathRoot){
+        console.log(id)
+        $.ajax({
+            type: "POST",
+            url: pathRoot,
+            data:{ id : id},
+            success: function(data){
+                console.log(data)
+            }
+        })
+    }
+</script>
+
+{% endblock %}
+
+{% block modal %}
+    {{ include('educations/_modal.html.twig') }}
+{% endblock %}

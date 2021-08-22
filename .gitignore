@@ -1,0 +1,8 @@
+/vendor
+/git
+/.env
+/.htaccess
+/.htaccess--
+/var
+/templates---
+/src--
