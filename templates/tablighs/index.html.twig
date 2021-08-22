@@ -37,13 +37,7 @@
                                     <td>{{ tabligh.questionMadressa ? 'OUI' : 'NON' }}</td>
                                     <td>{{ tabligh.classeMadressa }}</td>
                                     <td>{{ tabligh.frequentMadressa ? 'OUI' : 'NON' }}</td>
-                                    <td>
-                                        {% for mosquet in tabligh.frequentMosquet  %}
-                                        <ul>
-                                            <li>{{ mosquet }}</li>
-                                        </ul>
-                                        {% endfor %}
-                                    </td>
+                                    <td>{{ tabligh.frequentMosquet|join(', ')  }}</td>
                                     <td>{{ tabligh.freqMosquetAnnee}}</td>
                                     <td>{{ tabligh.proposition}}</td>
                                     <td>

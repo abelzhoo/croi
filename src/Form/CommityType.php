@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Entity\Commity;
 use App\Form\SanteType;
+use App\Form\SocialType;
+use App\Form\TablighType;
 use App\Form\EducationType;
 use App\Form\LogementType;
 use App\Form\SportType;
-use App\Form\TablighType;
-use App\Form\SocialType;
+
 use App\Form\ProfessionType;
 
 use Symfony\Component\Form\AbstractType;
@@ -20,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class CommityType extends AbstractType
@@ -64,29 +66,37 @@ class CommityType extends AbstractType
                 ]
             ])
             ->add('imageFile', VichImageType::class)
+            ->add('sante', SanteType::class)
+            ->add('social' , SocialType::class)
+            ->add('tabligh', TablighType::class)
             ->add('possession', CollectionType::class, [
                 'entry_type' => LogementType::class,
+                'entry_options' =>  ['label' => false],
                 'allow_add' => true,
-                'allow_delete' => true
+                'allow_delete' => true,
+
             ])
             ->add('etudiant', CollectionType::class, [
                 'entry_type' => EducationType::class,
+                'entry_options' =>  ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+            ])
+            ->add('sport', CollectionType::class, [
+                'entry_type' => SportType::class,
+                'entry_options' =>  ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true
             ])
+            ->add('save', SubmitType::class, ['label' => 'Ajouter Commité', 'attr' => ['class' => 'btn btn-success']]);
+            /* 
             ->add('profession', CollectionType::class, [
                 'entry_type' => ProfessionType::class,
                 'allow_add' => true,
                 'allow_delete' => true
             ])
-            ->add('sport', CollectionType::class, [
-                'entry_type' => SportType::class,
-                'allow_add' => true,
-                'allow_delete' => true
-            ])
-            ->add('social' , SocialType::class)
-            ->add('sante', SanteType::class)
-            ->add('tabligh', TablighType::class);
+            
+            ;*/
     }
 
     public function configureOptions(OptionsResolver $resolver)

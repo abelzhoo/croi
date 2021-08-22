@@ -55,43 +55,28 @@ class CommityController extends AbstractController
         
     } 
 
-
-    /**
-     * @Route("/new", name="app_dashboard_commity_new", methods={"GET","POST"})
-     */
-    public function new(Request $request):Response
-    {
-        $commity = new Commity();
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($commity);
-
-        $form = $this->createForm(CommityType::class, $commity);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            dd($commity);
-            $entityManager->persist($commity);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_dashboard_commity_read', [], Response::HTTP_SEE_OTHER);
-        }
-        return $this->render('commity/new.html.twig', [
-            'form' => $form->createView()
-        ]);
-        //return new Response('test');
-    }
-
     /**
      *@Route("/create", name="app_dashboard_commity_create", methods={"GET","POST"})
      */
     public function create(Request $request)
     {
         $commity = new Commity();
+
         $form = $this->createForm(CommityType::class, $commity);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            dd($form);
+            $entityManager = $this->getDoctrine()->getManager();
+            $commity->setSante($commity->getSante());
+            $commity->setSocial($commity->getSocial());
+            $commity->setTabligh($commity->getTabligh());
+            $datas = $commity->getPossession();
+            foreach($datas as $data){
+                $commity->addPossession($data);
+            }
+            $entityManager->persist($commity);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_dashboard_commity_read', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('commity/new.html.twig', [

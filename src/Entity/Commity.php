@@ -131,7 +131,7 @@ class Commity
     private $situationFamiliale;
 
     /**
-     * @ORM\OneToOne(targetEntity=Sante::class, mappedBy="commity")
+     * @ORM\OneToOne(targetEntity=Sante::class, mappedBy="commity", cascade={"persist", "remove"})
      */
     private $sante;
 
@@ -146,7 +146,7 @@ class Commity
     private $social;
 
     /**
-     * @ORM\OneToMany(targetEntity=Logement::class, mappedBy="commity")
+     * @ORM\OneToMany(targetEntity=Logement::class, mappedBy="commity", cascade={"persist", "remove"})
      */
     private $possession;
 
@@ -416,7 +416,7 @@ class Commity
     {
         // unset the owning side of the relation if necessary
         if ($sante === null && $this->sante !== null) {
-            $this->sante->setSante(null);
+            $this->sante->setCommity(null);
         }
 
         if ($sante !== null && $sante->getCommity() !== $this) {

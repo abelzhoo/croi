@@ -3,11 +3,10 @@
         <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
         <h1>AJOUT COMMITE</h1>
     </div>
-    <div class="widget-content global-commity">
-     {{ form_start(form) }}
+    <div class="widget-content global-commity" id="wizard">
             <div>
+             {{ form_start(form) }}
                 <h2>MON PROPOS</h2>
-               
                 <section>
                     <div class="control-group">
                         <label class="control-label">Nom famille :</label>
@@ -295,11 +294,34 @@
                         </div>
                     </div>
                 </section>
+                <h2>LOGEMENT</h2>
+                <section>
+                    <div class="control-group">
+                        <div class="controls">
+                            <ul class="logements" data-prototype="{{form_widget(form.possession.vars.prototype)|e('html_attr')}}"></ul>
+                        </div>
+                    </div>
+                </section>
+                <h2>EDUCATION</h2>
+                <section>
+                    <div class="control-group">
+                        <div class="controls">
+                            <ul class="educations" data-prototype="{{form_widget(form.etudiant.vars.prototype)|e('html_attr')}}"></ul>
+                        </div>
+                    </div>
+                </section>
+                <h2>SPORT</h2>
+                <section>
+                    <div class="control-group">
+                        <div class="controls">
+                            <ul class="sports" data-prototype="{{form_widget(form.sport.vars.prototype)|e('html_attr')}}"></ul>
+                        </div>
+                    </div>
+                </section>
+                {{ form_end(form) }}
                 
-                <div class="form-actions text-center">
-                    <button type="submit" class="btn btn-success">Ajouter</button>
-                </div>
             </div>
-        {{ form_end(form) }}
+            
+           
     </div>
 </div>

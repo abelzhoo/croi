@@ -15,7 +15,7 @@
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                         <h5 class="pull-left">{{app.request.get('situation')}}</h5>
-                        <span class="btn btn-primary pull-right"><a href="{{ path('app_dashboard_commity_new') }}"><i class="icon-plus"></i> Ajouter {{app.request.get('situation')}}</a></span>
+                        <span class="btn btn-primary pull-right"><a href="{{ path('app_dashboard_commity_create') }}"><i class="icon-plus"></i> Ajouter {{app.request.get('situation')}}</a></span>
                     </div>
                     <div class="widget-content nopadding">
                         <table class="table table-bordered data-table">
@@ -56,7 +56,7 @@
                                     <td>{{ commity.situationFamiliale }}</td>
                                     <td>{{ commity.numeroPhone }}</td>
                                     <td>{{ commity.adresseEmail }}</td>
-                                    <td>{{ commity.image }}</td>
+                                    <td><img src="{{'/uploads/avatar/personne/'~ commity.image}}" width="40" height="40" class="rounded thumbnail"></td>
                                     <td>
                                         <a data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_commity_edit', {'id': commity.id}) }}"><i class="icon-edit"></i></a>
