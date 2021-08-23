@@ -82,7 +82,16 @@ class SanteType extends AbstractType
             ->add('consultMedicin', TextType::class)
             ->add('bilanSanguin', TextType::class)
             ->add('obj', TextType::class)
-            ->add('chirurgie', TextType::class);
+            ->add('chirurgie', TextType::class)
+            ->add('typeMaladie', ChoiceType::class, [
+                'choices' => [
+                    "Séléctionnez les maladies" => "",
+                    "CANCER" => "cancer",
+                    "ORL" => "orl",
+                    "AUTRE" => "autre"
+                ],
+                'multiple' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

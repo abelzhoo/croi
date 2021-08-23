@@ -155,6 +155,11 @@ class Sante
      */
     private $chirurgie;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $typeMaladie = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -421,6 +426,18 @@ class Sante
     public function setChirurgie(?string $chirurgie): self
     {
         $this->chirurgie = $chirurgie;
+
+        return $this;
+    }
+
+    public function getTypeMaladie(): ?array
+    {
+        return $this->typeMaladie;
+    }
+
+    public function setTypeMaladie(?array $typeMaladie): self
+    {
+        $this->typeMaladie = $typeMaladie;
 
         return $this;
     }

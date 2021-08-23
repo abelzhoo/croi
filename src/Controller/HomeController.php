@@ -19,17 +19,17 @@ class HomeController extends AbstractController
      */
     public function index(SanteRepository $santeRepository, CommityRepository $commity): Response
     {
-        /*$santesData = $santeRepository->findByDate();*/
+        $santesData = $santeRepository->findByDate();
 
         $santes = [];
 
-        /*sante
+        //sante
         foreach($santesData as $value){
     
             $tab['pourcentage'] = ($value['total'] * 100) / count($commity->findAll());
             $tab['annee'] = $value['date_debut'];
             $santes[] = array_merge($tab);
-        }*/
+        }
 
 
         //education

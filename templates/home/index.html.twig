@@ -62,14 +62,14 @@
         </ul>
     </div>
 
-    <div class="row-fluid">
+     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
-            <h5>Education</h5>
+            <h5>Santé</h5>
           </div>
           <div class="widget-content">
-            <div id="placeholder"></div>
+            <div id="sante"></div>
           </div>
         </div>
       </div>
@@ -88,12 +88,13 @@
         </div>
       </div>
     </div>
+
 <!--End-Chart-box-->
 </div>
 {% endblock %}
 
 {% block javascripts %}
-
+    <!-- chart etudiant -->
     <script>
         var etudiants = JSON.stringify({{ etudiants|json_encode|raw }});
         var non_etudiants = JSON.stringify({{ non_etudiants|json_encode|raw }});
@@ -140,13 +141,46 @@
             });
 
             if (data.length > 0)
-                $.plot($("#placeholder"), data, {
+                $.plot($("#placeholder"), data,
+                {
+                    series: {
+                        lines: { show: true },
+                        points: { show: true }
+                    },
+                    grid: { hoverable: true, clickable: true },
                     yaxis: { min: 0, max: 100 },
                     xaxis: { tickDecimals: 0 }
                 });
         }
 
+        // === Point hover in chart === //
+        var previousPoint = null;
+        $("#placeholder").bind("plothover", function (event, pos, item) {
+
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+
+                    $('#tooltip').fadeOut(200,function(){
+                        $(this).remove();
+                    });
+                    var x = item.datapoint[0].toFixed(0),
+                        y = item.datapoint[1].toFixed(0);
+
+                    maruti.flot_tooltip(item.pageX, item.pageY,item.series.label + "  " + x + " = " + y + "%");
+                }
+
+            } else {
+                $('#tooltip').fadeOut(200,function(){
+                        $(this).remove();
+                    });
+                previousPoint = null;
+            }
+        });
+
+
         plotAccordingToChoices();
     });
     </script>
+    <!-- Fin Chart etudiant -->
 {% endblock %}
