@@ -19,22 +19,22 @@ class HomeController extends AbstractController
      */
     public function index(SanteRepository $santeRepository, CommityRepository $commity): Response
     {
+        $total_commity = count($commity->findAll());
         $santesData = $santeRepository->findByDate();
+        $santes = [] ;
+        $santes_tab = [];
 
-        $santes = [];
-
-        //sante
-        foreach($santesData as $value){
-    
-            $tab['pourcentage'] = ($value['total'] * 100) / count($commity->findAll());
-            $tab['annee'] = $value['date_debut'];
-            $santes[] = array_merge($tab);
+        foreach($santesData as $key => $value){
+            $tab['pourcentage'] = ($santesData[$key]['total'] * 100) / $total_commity;
+            $tab['annee'] = $santesData[$key]['annee'];
+            if (!array_key_exists($santesData[$key]['maladie'], $santes)) {
+                $santes[$santesData[$key]['maladie']] = [];
+            }
+            array_push($santes[$santesData[$key]['maladie']], [$tab['annee'], $tab['pourcentage']]);
         }
-
 
         //education
         $educationData = $commity->findByEducation();
-        $total_commity = count($commity->findAll());
         $etudiants = [];
         $non_etudiants = [];
 
@@ -45,7 +45,8 @@ class HomeController extends AbstractController
             array_push($non_etudiants, [$tab['annee'], 100-$tab['pourcentage']]);
         }
 
-        return $this->render("home/index.html.twig", compact('etudiants', 'non_etudiants', 'total_commity'));
+        return $this->render("home/index.html.twig", compact(
+            'santes', 'etudiants', 'non_etudiants', 'total_commity'));
     }
 
 }

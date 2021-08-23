@@ -21,12 +21,39 @@ class SanteRepository extends ServiceEntityRepository
 
     public function findByDate()
     {
-        
-        return $this->createQueryBuilder('s')
-                    ->select('DATE_FORMAT(s.dateDebut, \'%Y\') as date_debut, count(s.id) as total')
-                    ->groupBy('date_debut')
-                    ->getQuery()
-                    ->getResult();
+        $conn = $this->getEntityManager()->getConnection();
+        $date_debut_min = "SELECT DATE_FORMAT( MIN(date_debut), '%Y') as date_min from croi.sante; ";
+        $date_fin_max = "SELECT DATE_FORMAT( MAX(date_fin), '%Y') as date_max from croi.sante;";
+
+        $date_min = $conn->prepare($date_debut_min);
+        $date_max = $conn->prepare($date_fin_max);
+        $date_min->execute();
+        $date_max->execute();
+        $date_min = $date_min->fetchOne();
+        $date_max = $date_max->fetchOne();
+
+        $sql = "SELECT COUNT(*) as total FROM croi.sante 
+                WHERE type_maladie LIKE :maladie AND :annee 
+                BETWEEN DATE_FORMAT(date_debut , '%Y') AND DATE_FORMAT(date_fin , '%Y')";
+
+        $stmt = $conn->prepare($sql);
+        $santes = [];
+        $maladies = ['cancer', 'orl', 'diabete'] ;
+        $count_maladies = count($maladies);
+
+
+
+            for ($date_min; $date_min <= $date_max; $date_min++){
+                for ($i = 0 ; $i < $count_maladies; $i++){
+                    $stmt->execute(['maladie' => '%'.$maladies[$i].'%', 'annee' => $date_min]);
+                    array_push( $santes, [
+                        "maladie" =>$maladies[$i],
+                        "annee" => $date_min,
+                        "total" => $stmt->fetchOne()
+                    ]);
+                }
+            }
+            return $santes ;
     }
 
     // /**
