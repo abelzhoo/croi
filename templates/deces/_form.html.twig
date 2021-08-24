@@ -1,0 +1,30 @@
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+        <h1>AJOUT COMMITE</h1>
+    </div>
+    <div class="widget-content global-commity">
+        {{ form_start(form) }}
+            <div class="control-group">
+                <label class="control-label">Date du decès :</label>
+                <div class="controls">
+                    {{ form_widget(form.dateDeces, {'attr': {'class': 'form-control span11'}}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Date enterrement :</label>
+                <div class="controls">
+                    {{ form_widget(form.dateEnterement, {'attr': {'class': 'form-control span11'}}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    {{ form_widget(form.personne, {'attr': {'class': 'form-control span11'}}) }}
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Ajouter</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>

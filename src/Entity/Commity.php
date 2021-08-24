@@ -115,16 +115,6 @@ class Commity
     private $imageFile;
 
     /**
-     * @ORM\OneToMany(targetEntity=Enfant::class, mappedBy="commity")
-     */
-    private $enfants;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Mariage::class, mappedBy="commity")
-     */
-    private $mariage;
-
-    /**
      * @Groups({"commity_read","commity_write"})
      * @ORM\Column(type="string", length=255)
      */
@@ -165,12 +155,45 @@ class Commity
      */
     private $sport;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Deces::class, mappedBy="personne", cascade={"persist", "remove"})
+     */
+    private $deces;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Enfant::class, mappedBy="pere")
+     */
+    private $pereEnfant;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Enfant::class, mappedBy="mere")
+     */
+    private $mereEnfant;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Enfant::class, mappedBy="enfant")
+     */
+    private $enfants;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Mariage::class, mappedBy="mari", cascade={"persist", "remove"})
+     */
+    private $mariMariage;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Mariage::class, mappedBy="marie", cascade={"persist", "remove"})
+     */
+    private $marieMariage;
+
     public function __construct()
     {
         $this->possession = new ArrayCollection();
         $this->etudiant = new ArrayCollection();
         $this->profession = new ArrayCollection();
         $this->sport = new ArrayCollection();
+        $this->pereEnfant = new ArrayCollection();
+        $this->mereEnfant = new ArrayCollection();
+        $this->enfants = new ArrayCollection();
     }
 
 
@@ -320,36 +343,6 @@ class Commity
     public function setAdresseEmail(?string $adresseEmail): self
     {
         $this->adresseEmail = $adresseEmail;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Enfant[]
-     */
-    public function getEnfants(): Collection
-    {
-        return $this->enfants;
-    }
-
-    public function addEnfant(Enfant $enfant): self
-    {
-        if (!$this->enfants->contains($enfant)) {
-            $this->enfants[] = $enfant;
-            $enfant->setCommity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEnfant(Enfant $enfant): self
-    {
-        if ($this->enfants->removeElement($enfant)) {
-            // set the owning side to null (unless already changed)
-            if ($enfant->getCommity() === $this) {
-                $enfant->setCommity(null);
-            }
-        }
 
         return $this;
     }
@@ -588,6 +581,162 @@ class Commity
                 $sport->setCommity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeces(): ?Deces
+    {
+        return $this->deces;
+    }
+
+    public function setDeces(?Deces $deces): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($deces === null && $this->deces !== null) {
+            $this->deces->setPersonne(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($deces !== null && $deces->getPersonne() !== $this) {
+            $deces->setPersonne($this);
+        }
+
+        $this->deces = $deces;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Enfant[]
+     */
+    public function getPereEnfant(): Collection
+    {
+        return $this->pereEnfant;
+    }
+
+    public function addPereEnfant(Enfant $pereEnfant): self
+    {
+        if (!$this->pereEnfant->contains($pereEnfant)) {
+            $this->pereEnfant[] = $pereEnfant;
+            $pereEnfant->setPere($this);
+        }
+
+        return $this;
+    }
+
+    public function removePereEnfant(Enfant $pereEnfant): self
+    {
+        if ($this->pereEnfant->removeElement($pereEnfant)) {
+            // set the owning side to null (unless already changed)
+            if ($pereEnfant->getPere() === $this) {
+                $pereEnfant->setPere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Enfant[]
+     */
+    public function getMereEnfant(): Collection
+    {
+        return $this->mereEnfant;
+    }
+
+    public function addMereEnfant(Enfant $mereEnfant): self
+    {
+        if (!$this->mereEnfant->contains($mereEnfant)) {
+            $this->mereEnfant[] = $mereEnfant;
+            $mereEnfant->setMere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMereEnfant(Enfant $mereEnfant): self
+    {
+        if ($this->mereEnfant->removeElement($mereEnfant)) {
+            // set the owning side to null (unless already changed)
+            if ($mereEnfant->getMere() === $this) {
+                $mereEnfant->setMere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Enfant[]
+     */
+    public function getEnfants(): Collection
+    {
+        return $this->enfants;
+    }
+
+    public function addEnfant(Enfant $enfant): self
+    {
+        if (!$this->enfants->contains($enfant)) {
+            $this->enfants[] = $enfant;
+            $enfant->setEnfant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnfant(Enfant $enfant): self
+    {
+        if ($this->enfants->removeElement($enfant)) {
+            // set the owning side to null (unless already changed)
+            if ($enfant->getEnfant() === $this) {
+                $enfant->setEnfant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMariMariage(): ?Mariage
+    {
+        return $this->mariMariage;
+    }
+
+    public function setMariMariage(?Mariage $mariMariage): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($mariMariage === null && $this->mariMariage !== null) {
+            $this->mariMariage->setMari(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($mariMariage !== null && $mariMariage->getMari() !== $this) {
+            $mariMariage->setMari($this);
+        }
+
+        $this->mariMariage = $mariMariage;
+
+        return $this;
+    }
+
+    public function getMarieMariage(): ?Mariage
+    {
+        return $this->marieMariage;
+    }
+
+    public function setMarieMariage(?Mariage $marieMariage): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($marieMariage === null && $this->marieMariage !== null) {
+            $this->marieMariage->setMarie(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($marieMariage !== null && $marieMariage->getMarie() !== $this) {
+            $marieMariage->setMarie($this);
+        }
+
+        $this->marieMariage = $marieMariage;
 
         return $this;
     }

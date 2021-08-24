@@ -20,40 +20,74 @@ class Enfant
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="pereEnfant")
      */
-    private $nombreEnfant;
+    private $pere;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="mereEnfant")
+     */
+    private $mere;
 
     /**
      * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="enfants")
      */
-    private $commity;
+    private $enfant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Mariage::class, inversedBy="enfants")
+     */
+    private $parent;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNombreEnfant(): ?int
+    public function getPere(): ?Commity
     {
-        return $this->nombreEnfant;
+        return $this->pere;
     }
 
-    public function setNombreEnfant(?int $nombreEnfant): self
+    public function setPere(?Commity $pere): self
     {
-        $this->nombreEnfant = $nombreEnfant;
+        $this->pere = $pere;
 
         return $this;
     }
 
-    public function getCommity(): ?Commity
+    public function getMere(): ?Commity
     {
-        return $this->commity;
+        return $this->mere;
     }
 
-    public function setCommity(?Commity $commity): self
+    public function setMere(?Commity $mere): self
     {
-        $this->commity = $commity;
+        $this->mere = $mere;
+
+        return $this;
+    }
+
+    public function getEnfant(): ?Commity
+    {
+        return $this->enfant;
+    }
+
+    public function setEnfant(?Commity $enfant): self
+    {
+        $this->enfant = $enfant;
+
+        return $this;
+    }
+
+    public function getParent(): ?Mariage
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?Mariage $parent): self
+    {
+        $this->parent = $parent;
 
         return $this;
     }

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement mariage{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"><a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current pu">Mariage</a></div>
+            <h1>MARIAGE</h1>
+        </div>
+        <div class="container-fluid">
+            <hr>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <div class="pull-left">
+                                <span class="icon"><i class="icon-th"></i></span>
+                                <h5>MARIE/MARIAGE</h5>
+                            </div>
+                            <div class="pull-right">
+                                <span class="icon"><i class="icon-plus"></i></span>
+                                <h5><a href="{{path('app_dashboard_mariage_new')}}">AJOUTER MARIAGE</a></h5>
+                            </div>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div class="widget-content nopadding">
+                                <table class="table table-bordered data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>MARI</th>
+                                            <th>MARIE</th>
+                                            <th>DATE MARIAGE</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for mariage in mariages %}
+                                        <tr>
+                                            <td>{{ mariage.id }}</td>
+                                            <td>{{ mariage.mari.nomFamille }}</td>
+                                            <td>{{ mariage.marie.nomFamille }}</td>
+                                            <td>{{ mariage.dateMariage ? mariage.dateMariage|date('Y-m-d') : '' }}</td>
+                                            <td>
+                                                <a data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="15">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

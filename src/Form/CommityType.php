@@ -66,7 +66,7 @@ class CommityType extends AbstractType
                 ]
             ])
             ->add('imageFile', VichImageType::class)
-            ->add('sante', SanteType::class)
+            /*->add('sante', SanteType::class)
             ->add('social' , SocialType::class)
             ->add('tabligh', TablighType::class)
             ->add('possession', CollectionType::class, [
@@ -93,7 +93,7 @@ class CommityType extends AbstractType
                 'entry_options' =>  ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true
-            ])
+            ])*/
             ->add('save', SubmitType::class, ['label' => 'Ajouter Commité', 'attr' => ['class' => 'btn btn-success']]);
     }
 
