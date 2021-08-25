@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement naissance{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"><a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current pu">Naissance</a></div>
+            <h1>NAISSANCE</h1>
+        </div>
+        <div class="container-fluid">
+            <hr>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <div class="pull-left">
+                                <span class="icon"><i class="icon-th"></i></span>
+                                <h5>ENFANT/NAISSANCE</h5>
+                            </div>
+                            <div class="pull-right">
+                                <span class="icon"><i class="icon-plus"></i></span>
+                                <h5><a href="{{path('app_dashboard_enfant_new')}}">AJOUTER ENFANT</a></h5>
+                            </div>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div class="widget-content nopadding">
+                                <table class="table table-bordered data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>ENFANT</th>
+                                            <th>PERE SANS EPOUSE</th>
+                                            <th>MERE SANS EPOUX</th>
+                                            <th>PARENT LEGITIME</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for enfant in enfants %}
+                                        <tr>
+                                            <td>{{ enfant.id }}</td>
+                                            <td>{{ enfant.enfant }}</td>
+                                            <td>{{ enfant.pere }}</td>
+                                            <td>{{ enfant.mere}}</td>
+                                            <td>{{ enfant.parent}}</td>
+                                            <td>
+                                                <a data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="15">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

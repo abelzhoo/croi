@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\MariageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,9 +27,25 @@ class Mariage
     private $dateMariage;
 
     /**
-     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="mariage", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Enfant::class, mappedBy="parent")
      */
-    private $commity;
+    private $enfants;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="mariMariage", cascade={"persist", "remove"})
+     */
+    private $mari;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="marieMariage", cascade={"persist", "remove"})
+     */
+    private $marie;
+
+
+    public function __construct()
+    {
+        $this->enfants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,24 +64,56 @@ class Mariage
         return $this;
     }
 
-    public function getCommity(): ?Commity
+    /**
+     * @return Collection|Enfant[]
+     */
+    public function getEnfants(): Collection
     {
-        return $this->commity;
+        return $this->enfants;
     }
 
-    public function setCommity(?Commity $commity): self
+    public function addEnfant(Enfant $enfant): self
     {
-        // unset the owning side of the relation if necessary
-        if ($commity === null && $this->commity !== null) {
-            $this->commity->setMariage(null);
+        if (!$this->enfants->contains($enfant)) {
+            $this->enfants[] = $enfant;
+            $enfant->setParent($this);
         }
 
-        // set the owning side of the relation if necessary
-        if ($commity !== null && $commity->getMariage() !== $this) {
-            $commity->setMariage($this);
+        return $this;
+    }
+
+    public function removeEnfant(Enfant $enfant): self
+    {
+        if ($this->enfants->removeElement($enfant)) {
+            // set the owning side to null (unless already changed)
+            if ($enfant->getParent() === $this) {
+                $enfant->setParent(null);
+            }
         }
 
-        $this->commity = $commity;
+        return $this;
+    }
+
+    public function getMari(): ?Commity
+    {
+        return $this->mari;
+    }
+
+    public function setMari(?Commity $mari): self
+    {
+        $this->mari = $mari;
+
+        return $this;
+    }
+
+    public function getMarie(): ?Commity
+    {
+        return $this->marie;
+    }
+
+    public function setMarie(?Commity $marie): self
+    {
+        $this->marie = $marie;
 
         return $this;
     }
