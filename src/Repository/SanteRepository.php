@@ -33,6 +33,7 @@ class SanteRepository extends ServiceEntityRepository
         $date_max = $date_max->fetchOne();
 
         $sql = "SELECT COUNT(*) as total FROM croi.sante 
+                INNER JOIN croi.commity on commity.id = sante.commity_id
                 WHERE type_maladie LIKE :maladie AND :annee 
                 BETWEEN DATE_FORMAT(date_debut , '%Y') AND DATE_FORMAT(date_fin , '%Y')";
 
