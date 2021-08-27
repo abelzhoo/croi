@@ -19,12 +19,22 @@ class LogementRepository extends ServiceEntityRepository
         parent::__construct($registry, Logement::class);
     }
 
-    /*public function findByOwner(){
-        return $this->createQueryBuilder('l')
-                    ->where('l.proprietaireounon = 1'
-                    ->getQuery()
-                    ->getResult();
+    public function findByOwner(){
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT  COUNT(*) as total 
+            FROM `logement`as l INNER JOIN commity as c ON c.id = l.commity_id
+            WHERE proprietaire = :condition GROUP  BY adresse_permanente";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['condition' => 'OUI']);
+        $owner =  $stmt->fetchOne();
+        $stmt->execute(['condition' => 'NON']);
+        $locataire =  $stmt->fetchOne();
+        return ['proprietaire' => $owner, 'locataire' => $locataire];
     }
+
+    /*
 
     public function findByProvince($value){
         return $this->createQueryBuilder('l')

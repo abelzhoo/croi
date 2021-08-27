@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sante;
+use App\Repository\LogementRepository;
 use App\Repository\SanteRepository;
 use App\Repository\CommityRepository;
 
@@ -17,12 +18,15 @@ class HomeController extends AbstractController
     /**
      * @Route("/admin/accueil", name="app_dashboard_home")
      */
-    public function index(SanteRepository $santeRepository, CommityRepository $commity): Response
+    public function index(
+        SanteRepository $santeRepository, CommityRepository $commity, LogementRepository $logementRepository
+    ): Response
     {
         $total_commity = count($commity->findAll());
+
+        // santes
         $santesData = $santeRepository->findByDate();
         $santes = [] ;
-        $santes_tab = [];
 
         foreach($santesData as $key => $value){
             $tab['pourcentage'] = ($santesData[$key]['total'] * 100) / $total_commity;
@@ -45,8 +49,16 @@ class HomeController extends AbstractController
             array_push($non_etudiants, [$tab['annee'], 100-$tab['pourcentage']]);
         }
 
+        // logements
+        $logDatas = $logementRepository->findByOwner();
+        $logements = [
+            'proprietaire' => ($logDatas['proprietaire']* 100) / $total_commity,
+            'locataire' => ($logDatas['locataire']* 100) / $total_commity,
+        ];
+
         return $this->render("home/index.html.twig", compact(
-            'santes', 'etudiants', 'non_etudiants', 'total_commity'));
+            'santes', 'etudiants', 'non_etudiants', 'total_commity', 'logements')
+        );
     }
 
 }
