@@ -19,32 +19,51 @@ class SocialRepository extends ServiceEntityRepository
         parent::__construct($registry, Social::class);
     }
 
-    // /**
-    //  * @return Social[] Returns an array of Social objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByAide()
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $socials = [];
+        // nourriture
+        $oNouriture = $this->query('aide_nourriture', 'OUI') ;
+        $nNouriture = $this->query('aide_nourriture', 'NON') ;
+        $nouriture = ['oui' => $oNouriture, 'non' => $nNouriture] ;
 
-    /*
-    public function findOneBySomeField($value): ?Social
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        //education
+        $oEducation = $this->query('aide_education', 'OUI') ;
+        $nEducation = $this->query('aide_education', 'NON') ;
+        $education = ['oui' => $oEducation, 'non' => $nEducation] ;
+
+        //social
+        $oSocial= $this->query('aide_social', 'OUI') ;
+        $nSocial = $this->query('aide_social', 'NON') ;
+        $social = ['oui' => $oSocial, 'non' => $nSocial] ;
+
+        //sante
+        $oSante= $this->query('aide_sante', 'OUI') ;
+        $nSante = $this->query('aide_sante', 'NON') ;
+        $sante = ['oui' => $oSante, 'non' => $nSante] ;
+
+        //travail
+        $oTravail= $this->query('aide_travail', 'OUI') ;
+        $nTravail = $this->query('aide_travail', 'NON') ;
+        $travail = ['oui' => $oTravail, 'non' => $nTravail] ;
+
+        $socials['nourriture'] = $nouriture;
+        $socials['education'] = $education;
+        $socials['social'] = $social;
+        $socials['sante'] = $sante;
+        $socials['travail'] = $travail;
+
+        return $socials;
     }
-    */
+
+    private function query($fields, $value)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $req = "SELECT  COUNT(*) as total 
+            FROM `social`as s INNER JOIN commity as c ON c.id = s.commity_id
+            WHERE ". $fields ." = :var";
+        $stmt = $conn->prepare($req) ;
+        $stmt->execute(['var' => $value]);
+        return $stmt->fetchOne();
+    }
 }
