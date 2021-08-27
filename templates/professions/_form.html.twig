@@ -1,0 +1,62 @@
+
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+        <h1>DEPARTEMENT COMMERCE</h1>
+    </div>
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <h5>Ajouter Profession</h5>
+                    </div>
+                    {{ form_start(form) }}
+                    <div class="widget-content">
+                        <div class="control-group">
+                            <label class="control-label">Domaine d'activité :</label>
+                            <div class="controls">
+                                {{ form_widget(form.domaineActivite, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Salaire :</label>
+                            <div class="controls">
+                                {{ form_widget(form.salaire, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Prime :</label>
+                            <div class="controls">
+                                    {{ form_widget(form.prime, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Profession :</label>
+                            <div class="controls">
+                                {{ form_widget(form.profession, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Etest vous propriétaire :</label>
+                            <div class="controls">
+                                {{ form_widget(form.locataire, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Personnel de votre Société :</label>
+                            <div class="controls">
+                                {{ form_widget(form.personnel, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

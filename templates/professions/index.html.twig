@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departement Sante{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Accueil</a> <a href="#" class="current">Profession</a> </div>
+            <h1>DEPARTEMENT COMMERCE</h1>
+        </div>
+        <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5 class="pull-left">profession</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>DomaineActivite</th>
+                                    <th>Salaire</th>
+                                    <th>Prime</th>
+                                    <th>Profession</th>
+                                    <th>Etes vous locataire ou propriétaire ?</th>
+                                    <th>Personnel</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for profession in professions %}
+                                <tr>
+                                    <td>{{ profession.id }}</td>
+                                    <td>{{ profession.domaineActivite }}</td>
+                                    <td>{{ profession.salaire }}</td>
+                                    <td>{{ profession.prime }}</td>
+                                    <td>{{ profession.profession }}</td>
+                                    <td>{{ profession.locataire ? 'OUI' : 'NON' }}</td>
+                                    <td>{{ profession.personnel }}</td>
+                                    <td>
+                                        <a href="{{ path('app_dashboard_commerce_show', {'id': profession.id}) }}" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a href="{{ path('app_dashboard_commerce_edit', {'id': profession.id}) }}" ><i class="icon-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="9">Pas de donnée</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('js/jquery.min.js') }}"></script> 
+<script src="{{ asset('js/matrix.tables.js') }}"></script>
+{% endblock %}
+
+{% block modal %}
+    {{ include('professions/_modal.html.twig') }}
+{% endblock %}

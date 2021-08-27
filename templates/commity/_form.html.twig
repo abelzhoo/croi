@@ -1,0 +1,101 @@
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+        <h1>AJOUT COMMITE</h1>
+    </div>
+    <div class="widget-content global-commity" id="wizard">
+            <div>
+             {{ form_start(form) }}
+                <h2>MON PROPOS</h2>
+                <section>
+                    <div class="control-group">
+                        <label class="control-label">Nom famille :</label>
+                        <div class="controls">
+                            {{ form_widget(form.nomFamille, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Prenom de famille :</label>
+                        <div class="controls">
+                            {{ form_widget(form.prenomFamille, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Sexe :</label>
+                        <div class="controls">
+                            {{ form_widget(form.sexe, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Date de naissance :</label>
+                        <div class="controls">
+                            {{ form_widget(form.dateNaissance, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Nationalité :</label>
+                        <div class="controls">
+                            {{ form_widget(form.nationalite, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Document de voyage :</label>
+                        <div class="controls">
+                            {{ form_widget(form.documentVoyage, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Numéro de passeport :</label>
+                        <div class="controls">
+                            {{ form_widget(form.numeroPassport, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Numéro cin :</label>
+                        <div class="controls">
+                            {{ form_widget(form.numeroCin, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Situation marital :</label>
+                        <div class="controls">
+                            {{ form_widget(form.situationMarital, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Numéro de téléphone :</label>
+                        <div class="controls">
+                            {{ form_widget(form.numeroPhone, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Addresse email :</label>
+                        <div class="controls">
+                            {{ form_widget(form.adresseEmail, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Situation familliale :</label>
+                        <div class="controls">
+                            {{ form_widget(form.situationFamiliale, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Lieu de naissance :</label>
+                        <div class="controls">
+                            {{ form_widget(form.lieuNaissance, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Photo :</label>
+                        <div class="controls">
+                            {{ form_widget(form.imageFile, {'attr': {'class': 'span11'}}) }}
+                        </div>
+                    </div>
+                </section>
+                {{ form_end(form) }}
+            </div>
+            
+           
+    </div>
+</div>

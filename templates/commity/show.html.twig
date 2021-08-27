@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commity{% endblock %}
+
+{% block content %}
+    <h1>Commity</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ commity.id }}</td>
+            </tr>
+            <tr>
+                <th>NomFamille</th>
+                <td>{{ commity.nomFamille }}</td>
+            </tr>
+            <tr>
+                <th>PrenomFamille</th>
+                <td>{{ commity.prenomFamille }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ commity.sexe }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ commity.dateNaissance ? commity.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LieuNaissance</th>
+                <td>{{ commity.lieuNaissance }}</td>
+            </tr>
+            <tr>
+                <th>Nationalite</th>
+                <td>{{ commity.nationalite }}</td>
+            </tr>
+            <tr>
+                <th>DocumentVoyage</th>
+                <td>{{ commity.documentVoyage }}</td>
+            </tr>
+            <tr>
+                <th>NumeroPassport</th>
+                <td>{{ commity.numeroPassport }}</td>
+            </tr>
+            <tr>
+                <th>NumeroCin</th>
+                <td>{{ commity.numeroCin }}</td>
+            </tr>
+            <tr>
+                <th>SituationMarital</th>
+                <td>{{ commity.situationMarital }}</td>
+            </tr>
+            <tr>
+                <th>NumeroPhone</th>
+                <td>{{ commity.numeroPhone }}</td>
+            </tr>
+            <tr>
+                <th>AdresseEmail</th>
+                <td>{{ commity.adresseEmail }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ commity.image }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dashboard_commity_read') }}">back to list</a>
+
+    <a href="{{ path('app_dashboard_commity_edit', {'id': commity.id}) }}">edit</a>
+
+    {{ include('commity/_delete_form.html.twig') }}
+{% endblock %}

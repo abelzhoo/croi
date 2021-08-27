@@ -1,0 +1,61 @@
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+        <h1>DEPARTEMENT TABLIGH</h1>
+    </div>
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <h5>Tabligh</h5>
+                    </div>
+                    {{ form_start(form) }}
+                    <div class="widget-content">
+                        <div class="control-group">
+                            <label class="control-label">Avez vous été au madressa ?</label>
+                            <div class="controls">
+                                {{ form_widget(form.questionMadressa, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Jusqu'à quelle classe ?</label>
+                            <div class="controls">
+                                {{ form_widget(form.classeMadressa, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Est ce vos enfants fréquentent le madressa ?</label>
+                            <div class="controls">
+                                    {{ form_widget(form.frequentMadressa, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Quelles sont vos fréquentations de la mosquée ?</label>
+                            <div class="controls">
+                                {{ form_widget(form.frequentMosquet, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Selon vous, à quelle fréquence venez vous à la mosquée dans une année ?</label>
+                            <div class="controls">
+                                {{ form_widget(form.freqMosquetAnnee, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Que proposez-vous pour améliorer le tabligh en général ?</label>
+                            <div class="controls">
+                                {{ form_widget(form.proposition, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+#sidebar > ul > li{
+    border-top: none !important;
+    border-bottom: none !important;
+}

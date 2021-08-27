@@ -1,0 +1,37 @@
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+        <h1>AJOUT NAISSANCE</h1>
+    </div>
+    <div class="widget-content global-commity">
+        {{ form_start(form) }}
+            <div class="control-group">
+                <label class="control-label">Enfant :</label>
+                <div class="controls">
+                    {{ form_widget(form.enfant, {'attr': {'class': 'form-control span11'}}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Pere sans epouse :</label>
+                <div class="controls">
+                    {{ form_widget(form.pere, {'attr': {'class': 'form-control span11'}}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Mere sans epoux :</label>
+                <div class="controls">
+                    {{ form_widget(form.mere, {'attr': {'class': 'form-control span11'}}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Parent legitime :</label>
+                <div class="controls">
+                    {{ form_widget(form.parent, {'attr': {'class': 'form-control span11'}}) }}
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Ajouter</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>

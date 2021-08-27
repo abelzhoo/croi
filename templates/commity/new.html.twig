@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Commity{% endblock %}
+
+{% block stylesheets  %}
+  <link rel="stylesheet" href="{{ asset('css/jquery.steps.css') }}" />
+{% endblock %}
+
+{% block content %}
+     {{ include('commity/_form.html.twig') }}  
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/jquery.min.js') }}"></script> 
+<script src="{{ asset('js/jquery.steps.min.js') }}"></script> 
+    <script>
+      /*START LOGEMENT*/
+      (function(){
+
+        let $collectionLogement;
+        let $boutonAjouterLogement = $('<button type="button" class="add_logement_link"><i class="icon-plus"></i></button>');
+        let $nouveauLogement = $('<li></li>').append($boutonAjouterLogement);
+
+        jQuery(document).ready(function() {
+          $collectionLogement = $('ul.logements');
+          $collectionLogement.find('li').each(function(){
+            addLogementDeleteLink($(this));
+          });
+          $collectionLogement.append($nouveauLogement);
+          $collectionLogement.data('index', $collectionLogement.find('input').length);
+          $boutonAjouterLogement.on('click', function(e){
+            addLogementForm($collectionLogement, $nouveauLogement);
+          });
+
+          function addLogementForm($collectionLogement, $newLinkLi){
+            let prototypeLogement = $collectionLogement.data('prototype');
+            let indexLogement = $collectionLogement.data('index');
+            let newFormLogement = prototypeLogement;
+            newFormLogement = newFormLogement.replace(/__name__/g, indexLogement);
+            $collectionLogement.data('index', indexLogement + 1);
+            let $newFormLiLogement = $('<li></li>').append(newFormLogement);
+            $newLinkLi.before($newFormLiLogement);
+            addLogementDeleteLink($newFormLiLogement);
+          }
+
+          function addLogementDeleteLink($tagFormLi){
+            let $removeFormButton = $('<button type="button"><i class="icon-trash"></i></button>');
+            $tagFormLi.append($removeFormButton);
+            $removeFormButton.on('click', function(e){
+              $tagFormLi.remove();
+            })
+          }
+        });
+        
+        let $collectionEducation;
+        let $boutonAjouterEducation = $('<button type="button" class="add_education_link"><i class="icon-plus"></i></button>');
+        let $nouveauEducation = $('<li></li>').append($boutonAjouterEducation);
+
+        jQuery(document).ready(function() {
+          $collectionEducation = $('ul.educations');
+          $collectionEducation.find('li').each(function(){
+            addEducationDeleteLink($(this));
+          });
+
+          $collectionEducation.append($nouveauEducation);
+          $collectionEducation.data('index', $collectionEducation.find('input').length);
+          $boutonAjouterEducation.on('click', function(e){
+            addEducationForm($collectionEducation, $nouveauEducation);
+          });
+
+          function addEducationForm($collectionEducation, $newLinkLi){
+            let prototypeEducation = $collectionEducation.data('prototype');
+            let indexEducation = $collectionEducation.data('index');
+            let newFormEducation = prototypeEducation;
+            newFormEducation = newFormEducation.replace(/__name__/g, indexEducation);
+            $collectionEducation.data('index', indexEducation + 1);
+            let $newFormLiEdducation = $('<li></li>').append(newFormEducation);
+            $newLinkLi.before($newFormLiEdducation);
+            addEducationDeleteLink($newFormLiEdducation);
+          }
+
+          function addEducationDeleteLink($tagFormLi){
+            let $removeFormButton = $('<button type="button"><i class="icon-trash"></i></button>');
+            $tagFormLi.append($removeFormButton);
+            $removeFormButton.on('click', function(e){
+              $tagFormLi.remove();
+            })
+          }
+        });
+
+        let $collectionSport;
+        let $boutonAjouterSport = $('<button type="button" class="add_sport_link"><i class="icon-plus"></i></button>');
+        let $nouveauSport = $('<li></li>').append($boutonAjouterSport);
+
+        jQuery(document).ready(function() {
+          $collectionSport = $('ul.sports');
+          $collectionSport.find('li').each(function(){
+            addSportDeleteLink($(this));
+          });
+
+          $collectionSport.append($nouveauSport);
+          $collectionSport.data('index', $collectionSport.find('input').length);
+          $boutonAjouterSport.on('click', function(e){
+            addSportForm($collectionSport, $nouveauSport);
+          });
+
+          function addSportForm($collectionSport, $newLinkLi){
+            let prototypeSport = $collectionSport.data('prototype');
+            let indexSport = $collectionSport.data('index');
+            let newFormSport = prototypeSport;
+            newFormSport = newFormSport.replace(/__name__/g, indexSport);
+            $collectionSport.data('index', indexSport + 1);
+            let $newFormLiSport = $('<li></li>').append(newFormSport);
+            $newLinkLi.before($newFormLiSport);
+            addSportDeleteLink($newFormLiSport);
+          }
+
+          function addSportDeleteLink($tagFormLi){
+            let $removeFormButton = $('<button type="button"><i class="icon-trash"></i></button>');
+            $tagFormLi.append($removeFormButton);
+            $removeFormButton.on('click', function(e){
+              $tagFormLi.remove();
+            })
+          }
+        });
+
+        let $collectionProfession;
+        let $boutonAjouterProfession = $('<button type="button" class="add_sport_link"><i class="icon-plus"></i></button>');
+        let $nouveauProfession = $('<li></li>').append($boutonAjouterProfession);
+
+        jQuery(document).ready(function() {
+          $collectionProfession = $('ul.professions');
+          $collectionProfession.find('li').each(function(){
+            addProfessionDeleteLink($(this));
+          });
+
+          $collectionProfession.append($nouveauProfession);
+          $collectionProfession.data('index', $collectionProfession.find('input').length);
+          $boutonAjouterProfession.on('click', function(e){
+            addProfessionForm($collectionProfession, $nouveauProfession);
+          });
+
+          function addProfessionForm($collectionProfession, $newLinkLi){
+            let prototypeProfession = $collectionProfession.data('prototype');
+            let indexProfession = $collectionProfession.data('index');
+            let newFormProfession = prototypeProfession;
+            newFormProfession = newFormProfession.replace(/__name__/g, indexProfession);
+            $collectionProfession.data('index', indexProfession + 1);
+            let $newFormLiProfession = $('<li></li>').append(newFormProfession);
+            $newLinkLi.before($newFormLiProfession);
+            addProfessionDeleteLink($newFormLiProfession);
+          }
+
+          function addProfessionDeleteLink($tagFormLi){
+            let $removeFormButton = $('<button type="button"><i class="icon-trash"></i></button>');
+            $tagFormLi.append($removeFormButton);
+            $removeFormButton.on('click', function(e){
+              $tagFormLi.remove();
+            })
+          }
+        });
+      })()
+
+      /*let form = $("#wizard");
+
+      form.children("div").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        onFinished: function(event, current){
+          console.log(current);
+          alert('test')
+          form.submit();
+        }
+      })
+
+      let form = $("#wizard");
+
+      form.validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            confirm: {
+                equalTo: "#password"
+            }
+        }
+        });*/
+
+
+
+      /*$('#wizard').steps({
+        onFinish: function () { alert('complete'); }
+      });*/
+    </script>
+{% endblock %}
