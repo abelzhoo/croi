@@ -22,8 +22,8 @@ class SanteRepository extends ServiceEntityRepository
     public function findByDate()
     {
         $conn = $this->getEntityManager()->getConnection();
-        $date_debut_min = "SELECT DATE_FORMAT( MIN(date_debut), '%Y') as date_min from croi.sante; ";
-        $date_fin_max = "SELECT DATE_FORMAT( MAX(date_fin), '%Y') as date_max from croi.sante;";
+        $date_debut_min = "SELECT DATE_FORMAT( MIN(date_debut), '%Y') as date_min from sante; ";
+        $date_fin_max = "SELECT DATE_FORMAT( MAX(date_fin), '%Y') as date_max from sante;";
 
         $date_min = $conn->prepare($date_debut_min);
         $date_max = $conn->prepare($date_fin_max);
@@ -32,8 +32,8 @@ class SanteRepository extends ServiceEntityRepository
         $date_min = $date_min->fetchOne();
         $date_max = $date_max->fetchOne();
 
-        $sql = "SELECT COUNT(*) as total FROM croi.sante 
-                INNER JOIN croi.commity on commity.id = sante.commity_id
+        $sql = "SELECT COUNT(*) as total FROM sante 
+                INNER JOIN commity on commity.id = sante.commity_id
                 WHERE type_maladie LIKE :maladie AND :annee 
                 BETWEEN DATE_FORMAT(date_debut , '%Y') AND DATE_FORMAT(date_fin , '%Y')";
 
