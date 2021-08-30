@@ -19,6 +19,19 @@ class ProfessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Profession::class);
     }
 
+    
+    public function findByProfesion(){
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT COUNT(DISTINCT commity_id) as total
+        FROM `profession` AS p";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $professions =  $stmt->fetchOne();
+        return $professions;
+    }
+
     // /**
     //  * @return Profession[] Returns an array of Profession objects
     //  */

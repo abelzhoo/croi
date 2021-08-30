@@ -54,9 +54,19 @@
                     <a href="#social" onClick="analyticSocial()"> <i class="icon-th"></i> SOCIAL</a>
                 </li>
             {% endif %}
-            {% if is_granted('ROLE_PROFESSION') %}
+            {% if is_granted('ROLE_COMMERCE') %}
                 <li class="bg_ls span3">
                     <a href="#" onClick="analyticProfession()"> <i class="icon-fullscreen"></i> PROFESSION</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_SPORT') %}
+                <li class="bg_ls span3">
+                    <a href="#" onClick=""> <i class="icon-fullscreen"></i> SPORT</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_TABLIGH') %}
+                <li class="bg_ls span3">
+                    <a href="#" onClick=""> <i class="icon-fullscreen"></i> TABLIGH</a>
                 </li>
             {% endif %}
         </ul>
@@ -117,6 +127,49 @@
         </div>
       </div>
     </div>
+
+    <div class="row-fluid">
+      <div class="span12" id="profession">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Profession</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="profession"></div>
+            <p id="choicesProfession" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span12" id="sport">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Sport</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="sport"></div>
+            <p id="choicesSport" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span12" id="tabligh">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Tabligh</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="tabligh"></div>
+            <p id="choicesTabligh" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
 <!--End-Chart-box-->
 </div>
@@ -210,6 +263,8 @@
             var travail = JSON.stringify([ [max_date -1 , 0], [max_date, socials.travail] ]);
             var travail_non = JSON.stringify([ [max_date -1 , 0], [max_date, socials.travail_non] ]);
 
+            console.log('travail_non', travail_non)
+
             var datasetsSocials = {
                 "Aide nourriture": {
                     label: "Aide nourriture",
@@ -253,6 +308,26 @@
                 }
             };
             chartLine( choicesSocial, datasetsSocials, ".social" );
+
+            /** 
+            * Profesion
+            */
+            var choicesProfession = $("#choicesProfession");
+            var professions = {{ professions|json_encode|raw }};
+            var avecTravail = JSON.stringify([ [max_date -1 , 0], [max_date, professions.avecTravail] ]);
+            var sansTravail = JSON.stringify([ [max_date -1 , 0], [max_date, professions.sansTravail] ]);
+
+            var datasetsProfession = {
+                "avecTravail": {
+                    label: "avecTravail",
+                    data: JSON.parse(avecTravail)
+                },
+                "sansTravail": {
+                    label: "sansTravail",
+                    data: JSON.parse(sansTravail)
+                }
+            };
+            chartLine( choicesProfession, datasetsProfession, ".profession" );
 
             /**
             *

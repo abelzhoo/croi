@@ -74,21 +74,25 @@ class CommityController extends AbstractController
             $datas = $commity->getPossession();
             
             foreach($datas as $data){
+                $data->setCommity($commity) ;
                 $commity->addPossession($data);
             }
 
             $datasEducations = $commity->getEtudiant();
             foreach($datasEducations as $data){
+                $data->setCommity($commity) ;
                 $commity->addEtudiant($data);
             }
 
             $datasSports = $commity->getSport();
             foreach($datasSports as $data){
+                $data->setCommity($commity) ;
                 $commity->addSport($data);
             }
 
             $datasProfessions = $commity->getProfession();
             foreach($datasProfessions as $data){
+                $data->setCommity($commity) ;
                 $commity->addProfession($data);
             }
   

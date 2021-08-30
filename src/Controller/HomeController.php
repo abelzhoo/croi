@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Sante;
 use App\Repository\LogementRepository;
 use App\Repository\SanteRepository;
 use App\Repository\CommityRepository;
+use App\Repository\ProfessionRepository;
 
 use App\Repository\SocialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +23,7 @@ class HomeController extends AbstractController
      */
     public function index(
         SanteRepository $santeRepository, CommityRepository $commity, LogementRepository $logementRepository,
-        SocialRepository $socialRepository
+        SocialRepository $socialRepository, ProfessionRepository $professionRepository
     ): Response
     {
         $total_commity = count($commity->findAll());
@@ -63,8 +65,17 @@ class HomeController extends AbstractController
             $socials = $socialRepository->findByAide();
             $socials = $this->setSocials($socials, $total_commity) ;
 
+            //profession
+            $professionsDatas = $professionRepository->findByProfesion();
+            $calculSansTravail = $total_commity - $professionsDatas;
+            
+            $professions = [
+                'avecTravail' => ($professionsDatas * 100) / $total_commity,
+                'sansTravail' => ($calculSansTravail * 100) / $total_commity
+            ];
+
             return $this->render("home/index.html.twig", compact(
-                'santes', 'etudiants', 'non_etudiants', 'total_commity', 'logements', 'socials')
+                'santes', 'etudiants', 'non_etudiants', 'total_commity', 'logements', 'socials', 'professions')
             );
     }
 
