@@ -33,7 +33,7 @@
                                     <th>Limite de Santé</th>
                                     <th>Limite de Temps</th>
                                     <th>Chirurgie</th>
-                                    <th>Chose Porter</th>
+                                    <th>Objet Porter</th>
                                     <th>Type de maladie</th>
                                     <th>Prix d'Intervention</th>
                                     <th>Traitement Medical</th>
@@ -63,7 +63,7 @@
                                     <td>{{ sante.traitementMedical }}</td>
                                     <td>{{ sante.frequenceMaladie }}</td>
                                     <td>
-                                        <a onClick="showModalId('{{sante.id}}', '{{ path('app_dashboard_show_sante', {'id': sante.id}) }}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a onClick="showOpen('{{sante.id}}', '{{ path('app_dashboard_show_sante', {'id': sante.id}) }}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_edit_sante', {'id': sante.id}) }}"><i class="icon-edit"></i></a>
                                     </td>
                                 </tr>
@@ -81,27 +81,118 @@
         </div>
     </div>
 </div>
-
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script> 
 <script src="{{ asset('js/matrix.tables.js') }}"></script>
 <script>
-    function showModalId(id, pathRoot){
-        console.log(id)
+    function showOpen(id, path){
+        console.log(path)
         $.ajax({
             type: "POST",
-            url: pathRoot,
+            url: path,
             data:{ id : id},
             success: function(data){
                 console.log(data)
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Groupe Sanguin</td>
+                                <td>${data.groupeSanguin}</td>
+                            </tr>
+                            <tr>
+                                <td>Etat</td>
+                                <td>${data.etat}</td>
+                            </tr>
+                            <tr>
+                                <td>Maladie Chronique</td>
+                                <td>${data.maladieChronique}</td>
+                            </tr>
+                            <tr>
+                                <td>Tailles</td>
+                                <td>${data.tailles}</td>
+                            </tr>
+                            <tr>
+                                <td>Poids</td>
+                                <td>${data.poids}</td>
+                            </tr>
+                            <tr>
+                                <td>Intervention</td>
+                                <td>${data.intervention}</td>
+                            </tr>
+                            <tr>
+                                <td>Pays Chirurgie</td>
+                                <td>${data.paysChirurgie}</td>
+                            </tr>
+                            <tr>
+                                <td>Nom de Medicament</td>
+                                <td>${data.nomMedicament}</td>
+                            </tr>
+                            <tr>
+                                <td>Maladie Relative</td>
+                                <td>${data.maladieRelative}</td>
+                            </tr>
+                            <tr>
+                                <td>Limite de Santé</td>
+                                <td>${data.limiteSante}</td>
+                            </tr>
+                            <tr>
+                                <td>Limite de Temps</td>
+                                <td>${data.tempsLimite}</td>
+                            </tr>
+                            <tr>
+                                <td>Chirurgie</td>
+                                <td>${data.chirurgie}</td>
+                            </tr>
+                            <tr>
+                                <td>Objet Porter</td>
+                                <td>${data.objetPorte}</td>
+                            </tr>
+                            <tr>
+                                <td>Type de maladie</td>
+                                <td>${data.typeMaladie}</td>
+                            </tr>
+                            <tr>
+                                <td>Prix d'Intervention</td>
+                                <td>${data.prixIntervention}</td>
+                            </tr>
+                            <tr>
+                                <td>Traitement Medical</td>
+                                <td>${data.traitementMedical}</td>
+                            </tr>
+                            <tr>
+                                <td>Fréquence de Maladie</td>
+                                <td>${data.frequenceMaladie}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
             }
         })
     }
 </script>
-{% endblock %}
-
-{% block modal %}
-    {{ include('santes/_modal.html.twig') }}
 {% endblock %}

@@ -20,12 +20,12 @@ class Enfant
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="pereEnfant")
+     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="pereEnfant", cascade={"persist", "remove"})
      */
     private $pere;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="mereEnfant")
+     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="mereEnfant", cascade={"persist", "remove"})
      */
     private $mere;
 
@@ -33,11 +33,6 @@ class Enfant
      * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="enfants")
      */
     private $enfant;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Mariage::class, inversedBy="enfants")
-     */
-    private $parent;
 
     public function getId(): ?int
     {
@@ -80,15 +75,4 @@ class Enfant
         return $this;
     }
 
-    public function getParent(): ?Mariage
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?Mariage $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
 }

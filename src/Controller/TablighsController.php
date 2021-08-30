@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/tablighs")
+ * @Route("/tablighs")
  */
 class TablighsController extends AbstractController
 {
@@ -26,7 +26,7 @@ class TablighsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_dashboard_tabligh_create", methods={"GET","POST"})
+     * @Route("/nouveau-croyant", name="app_dashboard_tabligh_create", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,21 +49,27 @@ class TablighsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_tabligh_show", methods={"GET"})
+     * @Route("/{id}/voir", name="app_dashboard_tabligh_show")
      */
-    public function show(Tabligh $tabligh): Response
+    public function show(Request $request): Response
     {
-        return $this->render('tablighs/show.html.twig', [
-            'tabligh' => $tabligh,
-        ]);
+        if($request->isXmlHttpRequest()){
+            $id = $request->request->get('id');
+            $tabligh = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Tabligh')->find((int)$id);
+
+            return $this->json($tabligh, 200);
+
+        }
+        return new Response(null);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_tabligh_edit", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_tabligh_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Tabligh $tabligh): Response
     {
-        dd('test');
         $form = $this->createForm(TablighType::class, $tabligh);
         $form->handleRequest($request);
 
@@ -80,7 +86,7 @@ class TablighsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tablighs_delete", methods={"POST"})
+     * @Route("/{id}/supprimer", name="tablighs_delete", methods={"POST"})
      */
     public function delete(Request $request, Tabligh $tabligh): Response
     {

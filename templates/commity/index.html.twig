@@ -49,7 +49,7 @@
                                     <td>{{ commity.dateNaissance ? commity.dateNaissance|date('Y-m-d') : '' }}</td>
                                     <td>{{ commity.lieuNaissance }}</td>
                                     <td>{{ commity.nationalite }}</td>
-                                    <td>{{ commity.documentVoyage }}</td>
+                                    <td>{{ commity.documentVoyage|join(', ') }}</td>
                                     <td>{{ commity.numeroPassport }}</td>
                                     <td>{{ commity.numeroCin }}</td>
                                     <td>{{ commity.situationMarital }}</td>
@@ -58,8 +58,9 @@
                                     <td>{{ commity.adresseEmail }}</td>
                                     <td><img src="{{'/uploads/avatar/personne/'~ commity.image}}" width="40" height="40" class="rounded thumbnail"></td>
                                     <td>
-                                        <a data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a onClick="showOpen('{{ path('app_dashboard_commity_show', {'id': commity.id}) }}', '{{commity.id}}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_commity_edit', {'id': commity.id}) }}"><i class="icon-edit"></i></a>
+                                        <a href="{{ path('app_dashboard_commity_delete', {'id': commity.id}) }}" onClick="confirm('Etes vous sûre ?')"><i class="icon-trash"></i></a>
                                     </td>
                                 </tr>
                             {% else %}
@@ -76,7 +77,21 @@
         </div>
     </div>
 </div>
-
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
@@ -84,13 +99,82 @@
 <script src="{{ asset('js/matrix.tables.js') }}"></script>
 <script>
     function showOpen(path, id){
-        console.log(path)
-        
-        
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(data){
+                console.log(data)
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nom de Famille</td>
+                                <td>${data.nomFamille}</td>
+                            </tr>
+                            <tr>
+                                <td>Prénom de Famille</td>
+                                <td>${data.prenomFamille}</td>
+                            </tr>
+                            <tr>
+                                <td>Sexe</td>
+                                <td>${data.sexe}</td>
+                            </tr>
+                            <tr>
+                                <td>Situation Familliale</td>
+                                <td>${data.situationFamiliale}</td>
+                            </tr>
+                            <tr>
+                                <td>Situation Maritale</td>
+                                <td>${data.situationMarital}</td>
+                            </tr>
+                            <tr>
+                                <td>Lieu de naissance</td>
+                                <td>${data.lieuNaissance}</td>
+                            </tr>
+                            <tr>
+                                <td>Date de naissance</td>
+                                <td>${data.dateNaissance}</td>
+                            </tr>
+                            <tr>
+                                <td>Nationalité</td>
+                                <td>${data.nationalite}</td>
+                            </tr>
+                            <tr>
+                                <td>Document de voyage</td>
+                                <td>${data.documentVoyage}</td>
+                            </tr>
+                            <tr>
+                                <td>Numéro de passeport</td>
+                                <td>${data.numeroPassport}</td>
+                            </tr>
+                            <tr>
+                                <td>Adresse email</td>
+                                <td>${data.adresseEmail}</td>
+                            </tr>
+                            <tr>
+                                <td>Numéro de téléphone</td>
+                                <td>${data.numeroPhone}</td>
+                            </tr>
+                            <tr>
+                                <td>Photo</td>
+                                <td>
+                                    <img src="uploads/avatar/personne/${data.imageFile}" alt="Photo" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
+            }
+        })
     }
-</script>
-{% endblock %}
 
-{% block modal %}
-    {{ include('commity/_modal.html.twig') }}
+</script>
 {% endblock %}

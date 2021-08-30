@@ -27,19 +27,24 @@ class Mariage
     private $dateMariage;
 
     /**
-     * @ORM\OneToMany(targetEntity=Enfant::class, mappedBy="parent")
+     * @ORM\OneToMany(targetEntity=Enfant::class, mappedBy="parent", cascade={"persist", "remove"})
      */
     private $enfants;
 
     /**
-     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="mariMariage", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="mariMariage", cascade={"remove"})
      */
     private $mari;
 
     /**
-     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="marieMariage", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Commity::class, inversedBy="marieMariage", cascade={"remove"})
      */
     private $marie;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nomFamille;
 
 
     public function __construct()
@@ -114,6 +119,18 @@ class Mariage
     public function setMarie(?Commity $marie): self
     {
         $this->marie = $marie;
+
+        return $this;
+    }
+
+    public function getNomFamille(): ?string
+    {
+        return $this->nomFamille;
+    }
+
+    public function setNomFamille(?string $nomFamille): self
+    {
+        $this->nomFamille = $nomFamille;
 
         return $this;
     }

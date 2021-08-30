@@ -23,7 +23,7 @@ class TablighType extends AbstractType
                     'OUI' => 'oui',
                     'NON' => 'non'
                 ],
-                'expanded' => false,
+                'expanded' => false
             ])
             ->add('classeMadressa', NumberType::class)
             ->add('frequentMadressa', ChoiceType::class, [
@@ -32,19 +32,18 @@ class TablighType extends AbstractType
                     'OUI' => 'oui',
                     'NON' => 'non'
                 ],
-                'expanded' => false,
+                'expanded' => false
             ])
             ->add('frequentMosquet', ChoiceType::class, [
                 'choices' => [
-                    "Selectionnez ..." => "",
-                    'prière du matin' => 'prière du matin',
-                    'prière du midi' => 'prière du midi',
-                    'prière du soir' => 'prière du soir',
-                    'prière du vendredi' => 'prière du vendredi',
-                    'jeudi soir' => 'jeudi soir',
-                    'nuit de fêtes' => 'nuit de fêtes',
-                    'nuits de deuil' => 'nuits de deuil',
-                    'autres' => 'autres'
+                    'PRIERE DU MATIN' => 'prière du matin',
+                    'PRIERE DU MIDI' => 'prière du midi',
+                    'PRIERE DU SOIR' => 'prière du soir',
+                    'PRIERE DU JEUDI SOIR' => 'prière du jeudi',
+                    'PRIERE DU VENDREDI SOIR' => 'prière du vendredi',
+                    'NUITS DES FETES' => 'nuit de fêtes',
+                    'NUIT DE DEUIL' => 'nuits de deuil',
+                    'AUTRE' => 'autre'
                 ],
                 'multiple' => true
             ])

@@ -23,9 +23,10 @@ class SportType extends AbstractType
                     'NON' => 'non'
                 ],
                 'expanded' => false,
+                'attr' => ['class' => 'span11']
             ])
-            ->add('nomSport', TextType::class)
-            ->add('frequenceSport', TextType::class)
+            ->add('nomSport', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('frequenceSport', TextType::class, ['attr' => ['class' => 'span11']])
             ->add('pratiqueLoisir', ChoiceType::class, [
                 'choices' => [
                     "Selectionnez ..." => "",
@@ -33,8 +34,9 @@ class SportType extends AbstractType
                     'NON' => 'non'
                 ],
                 'expanded' => false,
+                'attr' => ['class' => 'span11']
             ])
-            ->add('nomLoisir', TextType::class)
+            ->add('nomLoisir', TextType::class, ['attr' => ['class' => 'span11']])
             //->add('membre', EntityType::class)
         ;
     }

@@ -41,7 +41,7 @@
                                     <td>{{ tabligh.freqMosquetAnnee}}</td>
                                     <td>{{ tabligh.proposition}}</td>
                                     <td>
-                                        <a href="{{ path('app_dashboard_tabligh_show', {'id': tabligh.id}) }}" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a onClick="showOpen('{{ path('app_dashboard_tabligh_show', {'id': tabligh.id}) }}', '{{tabligh.id}}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_tabligh_edit', {'id': tabligh.id}) }}"><i class="icon-edit"></i></a>
                                     </td>
                                 </tr>
@@ -59,13 +59,75 @@
         </div>
     </div>
 </div>
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script> 
 <script src="{{ asset('js/matrix.tables.js') }}"></script>
-{% endblock %}
 
-{% block modal %}
-    {{ include('tablighs/_modal.html.twig') }}
+<script>
+    function showOpen(path, id){
+        console.log(path, 'id',id)
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(data){
+                console.log(data)
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Avez vous été au madressa ?</td>
+                                <td>${data.questionMadressa}</td>
+                            </tr>
+                            <tr>
+                                <td>Jusqu'à quelle classe ?</td>
+                                <td>${data.classeMadressa}</td>
+                            </tr>
+                            <tr>
+                                <td>Est ce vos enfants fréquentent le madressa ?</td>
+                                <td>${data.frequentMadressa}</td>
+                            </tr>
+                            <tr>
+                                <td>Quelles sont vos fréquentations de la mosquée ?</td>
+                                <td>${data.frequentMosquet}</td>
+                            </tr>
+                            <tr>
+                                <td>Selon vous, à quelle fréquence venez vous à la mosquée dans une année ?</td>
+                                <td>${data.freqMosquetAnnee}</td>
+                            </tr>
+                            <tr>
+                                <td>Que proposez-vous pour améliorer le tabligh en général ?</td>
+                                <td>${data.proposition}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
+            }
+        })
+    }
+</script>
 {% endblock %}

@@ -57,7 +57,7 @@ class Sport
     private $nomLoisir;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="sport")
+     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="sport", cascade={"persist","remove"})
      */
     private $commity;
 

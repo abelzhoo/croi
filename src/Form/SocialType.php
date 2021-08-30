@@ -21,7 +21,7 @@ class SocialType extends AbstractType
                     'OUI' => 'oui',
                     'NON' => 'non'
                 ],
-                'expanded' => false,
+                'expanded' => false
             ])
             ->add('aideEducation', ChoiceType::class, [
                 'choices' => [
@@ -29,7 +29,7 @@ class SocialType extends AbstractType
                     'OUI' => 'oui',
                     'NON' => 'non'
                 ],
-                'expanded' => false,
+                'expanded' => false
             ])
             ->add('aideSocial', ChoiceType::class, [
                 'choices' => [
@@ -37,7 +37,7 @@ class SocialType extends AbstractType
                     'OUI' => 'oui',
                     'NON' => 'non'
                 ],
-                'expanded' => false,
+                'expanded' => false
             ])
             ->add('aideSante', ChoiceType::class, [
                 'choices' => [
@@ -45,7 +45,7 @@ class SocialType extends AbstractType
                     'OUI' => 'oui',
                     'NON' => 'non'
                 ],
-                'expanded' => false,
+                'expanded' => false
             ])
             ->add('aideTravail', ChoiceType::class,[
                 'choices' => [
@@ -53,7 +53,7 @@ class SocialType extends AbstractType
                     'OUI' => 'oui',
                     'NON' => 'non'
                 ],
-                'expanded' => false,
+                'expanded' => false
             ])
             //->add('membre', EntityType::class)
         ;

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/professions")
+ * @Route("/professions")
  */
 class ProfessionsController extends AbstractController
 {
@@ -26,7 +26,7 @@ class ProfessionsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_dashboard_commerce_create", methods={"GET","POST"})
+     * @Route("/nouveau-profession", name="app_dashboard_commerce_create", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,7 +39,7 @@ class ProfessionsController extends AbstractController
             $entityManager->persist($profession);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_dashboard_commerce_delete');
+            return $this->redirectToRoute('app_dashboard_profession');
         }
 
         return $this->render('professions/new.html.twig', [
@@ -49,17 +49,24 @@ class ProfessionsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_commerce_show", methods={"GET"})
+     * @Route("/{id}/voir", name="app_dashboard_commerce_show")
      */
-    public function show(Profession $profession): Response
+    public function show(Request $request): Response
     {
-        return $this->render('professions/show.html.twig', [
-            'profession' => $profession,
-        ]);
+        if($request->isXmlHttpRequest()){
+            $id = $request->request->get('id');
+            $profession = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Profession')->find((int)$id);
+
+            return $this->json($profession, 200);
+
+        }
+        return new Response(null);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_commerce_edit", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_commerce_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Profession $profession): Response
     {
@@ -69,7 +76,7 @@ class ProfessionsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app_dashboard_commerce_delete');
+            return $this->redirectToRoute('app_dashboard_profession');
         }
 
         return $this->render('professions/edit.html.twig', [
@@ -79,7 +86,7 @@ class ProfessionsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_commerce_delete", methods={"POST"})
+     * @Route("/{id}/supprimer", name="app_dashboard_commerce_delete", methods={"POST"})
      */
     public function delete(Request $request, Profession $profession): Response
     {
@@ -89,6 +96,6 @@ class ProfessionsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_dashboard_commerce_delete');
+        return $this->redirectToRoute('app_dashboard_profession');
     }
 }

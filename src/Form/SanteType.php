@@ -23,10 +23,14 @@ class SanteType extends AbstractType
             ->add('groupeSanguin', ChoiceType::class, [
                 'choices' => [
                     "Votre groupe sanguin" => "",
-                    "O" => "O",
-                    "A" => "A",
-                    "B" => "B",
-                    "AB" => "AB"
+                    "O+" => "O+",
+                    "A+" => "A+",
+                    "B+" => "B+",
+                    "AB+" => "AB+",
+                    "O-" => "O-",
+                    "A-" => "A-",
+                    "B-" => "B-",
+                    "AB-" => "AB-"
                 ]
             ])
             ->add('etat', ChoiceType::class, [
@@ -35,8 +39,7 @@ class SanteType extends AbstractType
                     "BON" => "bon",
                     "MOYEN" => "moyen",
                     "MAUVAIS" => "mauvais"
-                ],
-                'attr' => ['class' => 'form-control']
+                ]
             ])
             ->add('maladieChronique', ChoiceType::class, [
                 "choices" => [
@@ -61,7 +64,6 @@ class SanteType extends AbstractType
             ->add('tempsLimite', TextType::class)
             ->add('objetPorte', ChoiceType::class, [
                 'choices' => [
-                    "Choisir l'objet portez" => "",
                     "LUNETTE" => "lunette",
                     "PROTHESE DENT" => "prothese dent",
                     "AUTRE PROTHESE" => "autre prothese"
@@ -81,13 +83,21 @@ class SanteType extends AbstractType
             ])
             ->add('consultMedicin', TextType::class)
             ->add('bilanSanguin', TextType::class)
-            ->add('obj', TextType::class)
+            //->add('obj', TextType::class)
             ->add('chirurgie', TextType::class)
             ->add('typeMaladie', ChoiceType::class, [
                 'choices' => [
-                    "Séléctionnez les maladies" => "",
+                    "CARDIO" => "cardio",
                     "CANCER" => "cancer",
+                    "DIABETE" => "diabete",
+                    "PULMONIE" => "pulmonie",
                     "ORL" => "orl",
+                    "DIGESTIF" => "digestif",
+                    "OS et ARTICULATION" => "os et articulation",
+                    "GENITAUX" => "genitaux",
+                    "METABOLIQUE" => "metabolique",
+                    "OCULAIRE" => "oculaire",
+                    "PEAU" => "peau",
                     "AUTRE" => "autre"
                 ],
                 'multiple' => true

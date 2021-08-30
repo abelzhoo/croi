@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/santes")
+ * @Route("/santes")
  */
 class SantesController extends AbstractController
 {
@@ -20,14 +20,13 @@ class SantesController extends AbstractController
      */
     public function index(SanteRepository $santeRepository): Response
     {
-    
         return $this->render('santes/index.html.twig', [
             'santes' => $santeRepository->findAll()
         ]);
     }
 
     /**
-     * @Route("/new", name="app_dashboard_create_sante", methods={"GET","POST"})
+     * @Route("/nouveau-sante", name="app_dashboard_create_sante", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -50,20 +49,24 @@ class SantesController extends AbstractController
     }
 
     /**
-     * @Route("/show/{id}", name="app_dashboard_show_sante", methods={"GET", "POST"})
+     * @Route("/{id}/voir", name="app_dashboard_show_sante")
      */
-    public function show(Sante $sante, Request $request)
+    public function show(Request $request)
     {
-        if($request->isXMLHttpRequest()){
-            dd($request);
+        if($request->isXmlHttpRequest()){
+            $id = $request->request->get('id');
+            $sante = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Sante')->find((int)$id);
+
+            return $this->json($sante, 200);
+
         }
-        /*return $this->render('santes/show.html.twig', [
-            'sante' => $sante,
-        ]);*/
+        return new Response(null);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_edit_sante", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_edit_sante", methods={"GET","POST"})
      */
     public function edit(Request $request, Sante $sante): Response
     {
@@ -83,7 +86,7 @@ class SantesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_delete_sante", methods={"POST"})
+     * @Route("/{id}/supprimer", name="app_dashboard_delete_sante", methods={"POST"})
      */
     public function delete(Request $request, Sante $sante): Response
     {

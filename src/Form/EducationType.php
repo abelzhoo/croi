@@ -20,27 +20,29 @@ class EducationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomEcole', TextType::class)
-            ->add('nomUniversite', TextType::class)
-            ->add('classe', TextType::class)
-            ->add('carteEtudiant', TextType::class)
-            ->add('adresseEcole', TextType::class)
-            ->add('adresseUniversite', TextType::class)
-            ->add('diplome', TextType::class)
+            ->add('nomEcole', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('nomUniversite', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('classe', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('carteEtudiant', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('adresseEcole', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('adresseUniversite', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('diplome', TextType::class, ['attr' => ['class' => 'span11']])
             ->add('anneeScolaire', DateType::class, [
                 'widget' => 'single_text',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'span11']
             ])
-            ->add('nomPays', CountryType::class)
-            ->add('province', TextType::class)
-            ->add('niveauEtude', TextType::class)
+            ->add('nomPays', CountryType::class, ['attr' => ['class' => 'span11']])
+            ->add('province', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('niveauEtude', TextType::class, ['attr' => ['class' => 'span11']])
             ->add('aideEducation', ChoiceType::class,[
                 'choices' => [
                     "Vous avez des aides ?" => "",
                     'OUI' => 'oui',
                     'NON' => 'non'
-                ]
-                ]);
+                ],
+                'attr' => ['class' => 'span11']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

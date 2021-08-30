@@ -10,6 +10,7 @@
         </div>
         <div class="container-fluid">
             <hr>
+            <div id="deleteBox" class="alert alert-success"></div>
             <div class="row-fluid">
                 <div class="span12">
                     <div class="widget-box">
@@ -44,7 +45,9 @@
                                             <td>{{ mort.dateEnterement|date('d-m-Y') }}</td>
                                             <td>{{ mort.personne.nomFamille }}</td>
                                             <td>
-                                                <a data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                                <a onClick="showOpen('{{ path('app_dashboard_deces_show', {'id': mort.id}) }}', '{{mort.id}}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                                <a href="{{ path('app_dashboard_deces_edit', {'id': mort.id}) }}"><i class="icon-edit"></i></a>
+                                                <a onClick="deleteField('{{ path('app_dashboard_deces_delete', {'id': mort.id}) }}','{{mort.id}}')" ><i class="icon-trash"></i></a>
                                             </td>
                                         </tr>
                                     {% else %}
@@ -62,4 +65,118 @@
         </div>
     </div>
 </div>
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/jquery.min.js') }}"></script> 
+<script src="{{ asset('js/matrix.tables.js') }}"></script>
+<script>
+    function showOpen(path, id){
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(data){
+                console.log(data)
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nom de Famille</td>
+                                <td>${data.personne.nomFamille}</td>
+                            </tr>
+                            <tr>
+                                <td>Prénom de Famille</td>
+                                <td>${data.personne.prenomFamille}</td>
+                            </tr>
+                            <tr>
+                                <td>Sexe</td>
+                                <td>${data.personne.sexe}</td>
+                            </tr>
+                            <tr>
+                                <td>Situation Familliale</td>
+                                <td>${data.personne.situationFamiliale}</td>
+                            </tr>
+                            <tr>
+                                <td>Situation Maritale</td>
+                                <td>${data.personne.situationMarital}</td>
+                            </tr>
+                            <tr>
+                                <td>Lieu de naissance</td>
+                                <td>${data.personne.lieuNaissance}</td>
+                            </tr>
+                            <tr>
+                                <td>Date de naissance</td>
+                                <td>${data.personne.dateNaissance}</td>
+                            </tr>
+                            <tr>
+                                <td>Nationalité</td>
+                                <td>${data.personne.nationalite}</td>
+                            </tr>
+                            <tr>
+                                <td>Document de voyage</td>
+                                <td>${data.personne.documentVoyage}</td>
+                            </tr>
+                            <tr>
+                                <td>Numéro de passeport</td>
+                                <td>${data.personne.numeroPassport}</td>
+                            </tr>
+                            <tr>
+                                <td>Adresse email</td>
+                                <td>${data.personne.adresseEmail}</td>
+                            </tr>
+                            <tr>
+                                <td>Numéro de téléphone</td>
+                                <td>${data.personne.numeroPhone}</td>
+                            </tr>
+                            <tr>
+                                <td>Photo</td>
+                                <td>
+                                    <img src="uploads/avatar/personne/${data.personne.imageFile}" alt="Photo" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
+            }
+        })
+    }
+
+    function deleteField(path, id){
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(response){
+                window.load()
+                let text = `<span>${response}</span>`;
+                $("#deleteBox").html(text);
+            }
+            
+        })
+    }
+
+</script>
 {% endblock %}

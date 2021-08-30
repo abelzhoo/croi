@@ -22,11 +22,11 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>AideNourriture</th>
-                                    <th>AideEducation</th>
-                                    <th>AideSocial</th>
-                                    <th>AideSante</th>
-                                    <th>AideTravail</th>
+                                    <th>Aide Nourriture</th>
+                                    <th>Aide Education</th>
+                                    <th>Aide Social</th>
+                                    <th>Aide Sante</th>
+                                    <th>Aide Travail</th>
                                     <th>actions</th>
                                 </tr>
                             </thead>
@@ -40,7 +40,7 @@
                                     <td>{{ social.aideSante }}</td>
                                     <td>{{ social.aideTravail}}</td>
                                     <td>
-                                        <a href="{{ path('app_dashboard_social_show', {'id': social.id}) }}" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a onClick="showOpen('{{ path('app_dashboard_social_show', {'id': social.id}) }}', '{{social.id}}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_social_edit', {'id': social.id}) }}"><i class="icon-edit"></i></a>
                                     </td>
                                 </tr>
@@ -58,13 +58,69 @@
         </div>
     </div>
 </div>
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script> 
 <script src="{{ asset('js/matrix.tables.js') }}"></script>
-{% endblock %}
-
-{% block modal %}
-    {{ include('socials/_modal.html.twig') }}
+<script>
+    function showOpen(path, id){
+        console.log(path, 'id',id)
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(data){
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aide Education</td>
+                                <td>${data.aideEducation}</td>
+                            </tr>
+                            <tr>
+                                <td>Aide Nourriture</td>
+                                <td>${data.aideNourriture}</td>
+                            </tr>
+                            <tr>
+                                <td>Aide Social</td>
+                                <td>${data.aideSocial}</td>
+                            </tr>
+                            <tr>
+                                <td>Aide Santé</td>
+                                <td>${data.aideSante}</td>
+                            </tr>
+                            <tr>
+                                <td>Aide Travail</td>
+                                <td>${data.aideTravail}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
+            }
+        })
+    }
+</script>
 {% endblock %}

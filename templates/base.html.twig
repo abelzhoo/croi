@@ -14,12 +14,12 @@
     {% block stylesheets %}{% endblock %}
   </head>
   <body>
-  {# app.request.requestUri #}
+
     {% if app.user != null %}
       <div id="header">
         <h1><a href="dashboard.html">RECENSEMENT CROI</a></h1>
       </div>
-
+      
       <div id="user-nav" class="navbar navbar-inverse">
         <ul class="nav">
           <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Bonjour {{ app.user.fname }}</span><b class="caret"></b></a>
@@ -41,13 +41,13 @@
             {% if is_granted('ROLE_ADMIN') %}
               <a href="#"><i class="icon icon-list"></i><span>MEMBRE DU COMMITE</span></a>
               <ul>
-                <li>
+                <li class="{% if current_menu is defined and current_menu == 'pere' %} active {% endif %}">
                   <a href="{{ path('app_dashboard_dad_read' , {'situation': 'pere'}) }}">PERE</a>
                 </li>
-                <li>
+                <li class="{% if current_menu is defined and current_menu == 'mere' %} active {% endif %}">
                   <a href="{{ path('app_dashboard_dad_read', {'situation': 'mere'}) }}">MERE</a>
                 </li>
-                <li>
+                <li class="{% if current_menu is defined and current_menu == 'enfant' %} active {% endif %}">
                   <a href="{{ path('app_dashboard_dad_read', {'situation': 'enfant'}) }}">ENFANTS</a>
                 </li>
             </ul>
@@ -104,10 +104,10 @@
         <div id="footer" class="span12"> 2021 &copy; Croi Recensement</div>
       </div>
     {% else %}
-      {% block body %}{% endblock %}
+      {% block body %}
+        {% block contents %} {% endblock %}
+      {% endblock %}
     {% endif %}
-
-     {% block modal %}{% endblock %}
      <script src="{{ asset('js/jquery.min.js') }}"></script> 
     <script src="{{ asset('js/jquery.flot.min.js') }}"></script> 
     <script src="{{ asset('js/jquery.flot.resize.min.js') }}"></script> 

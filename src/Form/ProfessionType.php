@@ -18,10 +18,20 @@ class ProfessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('domaineActivite', TextType::class)
-            ->add('salaire', MoneyType::class)
-            ->add('prime', MoneyType::class)
-            ->add('profession', TextType::class)
+            ->add('domaineActivite', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('salaire', MoneyType::class, ['attr' => ['class' => 'span11']])
+            ->add('prime', MoneyType::class, ['attr' => ['class' => 'span11']])
+            ->add('profession', ChoiceType::class, [
+                "choices" => [
+                    "COMMERCE" => "COMMERCE",
+                    "IMPORTATEUR / EXPORTATEUR" => "IMPORTATEUR/EXPORTATEUR",
+                    "TRADER" => "TRADER",
+                    "REVENDEUR" => "REVENDEUR",
+                    "PRESTATEUR DE SERVICE" => "PRESTATEUR DE SERVICE"
+                ],
+                'attr' => ['class' => 'span11'],
+                "multiple" => true
+            ])
             ->add('locataire', ChoiceType::class, [
                 'choices' => [
                     "Selectionnez" => "",
@@ -29,8 +39,9 @@ class ProfessionType extends AbstractType
                     'NON' => 'non'
                 ],
                 'expanded' => false,
+                'attr' => ['class' => 'span11']
             ])
-            ->add('personnel', TextType::class)
+            ->add('personnel', TextType::class, ['attr' => ['class' => 'span11']])
         ;
     }
 

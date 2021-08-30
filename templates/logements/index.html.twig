@@ -28,6 +28,7 @@
                                     <th>Province</th>
                                     <th>MontantLoyer</th>
                                     <th>MontantSyndic</th>
+                                    <th>Nom de Propriété</th>
                                     <th>actions</th>
                                 </tr>
                             </thead>
@@ -41,8 +42,9 @@
                                     <td>{{ logement.province }}</td>
                                     <td>{{ logement.montantLoyer }}</td>
                                     <td>{{ logement.montantSyndic }}</td>
+                                    <td>{{ dump(logement.commity) }}</td>
                                     <td>
-                                        <a href="{{ path('app_dashboard_logement_show', {'id': logement.id}) }}" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a onClick="showOpen('{{ path('app_dashboard_logement_show', {'id': logement.id}) }}', '{{logement.id}}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_logement_edit', {'id': logement.id}) }}"><i class="icon-edit"></i></a>
                                     </td>
                                 </tr>
@@ -60,12 +62,72 @@
         </div>
     </div>
 </div>
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script> 
 <script src="{{ asset('js/matrix.tables.js') }}"></script>
-{% endblock %}
-
-{% block modal %}
-    {{ include('logements/_modal.html.twig') }}
+<script>
+    function showOpen(path, id){
+        console.log(path, 'id',id)
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(data){
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Adresse Permanente</td>
+                                <td>${data.adressePermanente}</td>
+                            </tr>
+                            <tr>
+                                <td>Adresse Temporaire</td>
+                                <td>${data.adresseTemporaire}</td>
+                            </tr>
+                            <tr>
+                                <td>Montant Loyer</td>
+                                <td>${data.montantLoyer}</td>
+                            </tr>
+                            <tr>
+                                <td>Montant Syndic</td>
+                                <td>${data.montantSyndic}</td>
+                            </tr>
+                            <tr>
+                                <td>Pays</td>
+                                <td>${data.nomPays}</td>
+                            </tr>
+                            <tr>
+                                <td>Province</td>
+                                <td>${data.province}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
+            }
+        })
+    }
+</script>
 {% endblock %}

@@ -54,9 +54,11 @@
 
 .wizard > .steps
 {
-    position: relative;
+    /*position: relative;
     display: block;
-    width: 100%;
+    width: 100%;*/
+    background-color: white;
+    padding-top: 5px;
 }
 
 .wizard.vertical > .steps
@@ -139,7 +141,8 @@
 
 .wizard > .content
 {
-    background: #eee;
+    /*background: #eee;*/
+    background-color: white;
     display: block;
     margin: 0.5em;
     min-height: 35em;
@@ -150,6 +153,8 @@
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    margin-top: 42px;
+    padding: 5px;
 }
 
 .wizard.vertical > .content
@@ -166,7 +171,7 @@
     position: absolute;*/
     width: 95%;
     height: 95%;
-    padding: 2.5%;
+    padding: 0%;
 }
 
 .wizard > .content > .body ul
@@ -235,8 +240,13 @@
 
 .wizard > .actions > ul
 {
-    display: inline-block;
+    /*display: inline-block;*/
+    display: flex;
+    justify-content: space-around;
     text-align: right;
+    margin-top: 20px;
+    background-color: white;
+    padding: 5px;
 }
 
 .wizard > .actions > ul > li

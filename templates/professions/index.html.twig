@@ -27,6 +27,7 @@
                                     <th>Profession</th>
                                     <th>Etes vous locataire ou propriétaire ?</th>
                                     <th>Personnel</th>
+                                    <th>Employé</th>
                                     <th>actions</th>
                                 </tr>
                             </thead>
@@ -37,11 +38,12 @@
                                     <td>{{ profession.domaineActivite }}</td>
                                     <td>{{ profession.salaire }}</td>
                                     <td>{{ profession.prime }}</td>
-                                    <td>{{ profession.profession }}</td>
+                                    <td>{{ profession.profession|join('') }}</td>
                                     <td>{{ profession.locataire ? 'OUI' : 'NON' }}</td>
                                     <td>{{ profession.personnel }}</td>
+                                    <td>{{ dump(profession.commity) }}</td>
                                     <td>
-                                        <a href="{{ path('app_dashboard_commerce_show', {'id': profession.id}) }}" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a onClick="showOpen('{{ path('app_dashboard_commerce_show', {'id': profession.id}) }}', '{{profession.id}}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_commerce_edit', {'id': profession.id}) }}" ><i class="icon-edit"></i></a>
                                     </td>
                                 </tr>
@@ -59,12 +61,72 @@
         </div>
     </div>
 </div>
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script> 
 <script src="{{ asset('js/matrix.tables.js') }}"></script>
-{% endblock %}
-
-{% block modal %}
-    {{ include('professions/_modal.html.twig') }}
+<script>
+    function showOpen(path, id){
+        console.log(path, 'id',id)
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(data){
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Domaine Activite</td>
+                                <td>${data.domaineActivite}</td>
+                            </tr>
+                            <tr>
+                                <td>Salaire</td>
+                                <td>${data.salaire}</td>
+                            </tr>
+                            <tr>
+                                <td>Prime</td>
+                                <td>${data.prime}</td>
+                            </tr>
+                            <tr>
+                                <td>Profession</td>
+                                <td>${data.profession}</td>
+                            </tr>
+                            <tr>
+                                <td>Etes vous locataire ou propriétaire ?</td>
+                                <td>${data.locataire}</td>
+                            </tr>
+                            <tr>
+                                <td>Nombre du personnel</td>
+                                <td>${data.personnel}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
+            }
+        })
+    }
+</script>
 {% endblock %}

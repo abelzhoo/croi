@@ -21,11 +21,12 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>PratiqueSport</th>
+                                    <th>Pratiquez sport</th>
                                     <th>Quel Sport</th>
                                     <th>Quel Frequence</th>
                                     <th>Pratiquez Loisir ?</th>
                                     <th>Quel Loisir</th>
+                                    <th>Joueur</th>
                                     <th>actions</th>
                                 </tr>
                             </thead>
@@ -38,8 +39,9 @@
                                     <td>{{ sport.frequenceSport }}</td>
                                     <td>{{ sport.pratiqueLoisir ? 'OUI' : 'NON' }}</td>
                                     <td>{{ sport.nomLoisir }}</td>
+                                    <td>{{ dump(sport.commity) }}</td>
                                     <td>
-                                        <a href="{{ path('app_dashboard_sport_show', {'id': sport.id}) }}" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
+                                        <a onClick="showOpen('{{ path('app_dashboard_sport_show', {'id': sport.id}) }}', '{{sport.id}}')" data-toggle="modal" data-target="#popUpWindow"><i class="icon-eye-open"></i></a>
                                         <a href="{{ path('app_dashboard_sport_edit', {'id': sport.id}) }}"><i class="icon-edit"></i></a>
                                     </td>
                                 </tr>
@@ -57,13 +59,69 @@
         </div>
     </div>
 </div>
+{# modal #}
+<div class="modal hide" id="popUpWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h3>Add a new event</h3>
+            </div>
+            <div class="modal-body" id="contentModal"></div>
+            <div class="modal-footer">
+                <button class="btn pull-right" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script> 
 <script src="{{ asset('js/matrix.tables.js') }}"></script>
-{% endblock %}
-
-{% block modal %}
-    {{ include('sports/_modal.html.twig') }}
+<script>
+    function showOpen(path, id){
+        console.log(path, 'id',id)
+        $.ajax({
+            type: "POST",
+            url: path,
+            data:{ id : id},
+            success: function(data){
+                html = `
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <td>Données</td>
+                                <td>Valeurs</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pratiquez sport ?</td>
+                                <td>${data.pratiqueSport}</td>
+                            </tr>
+                            <tr>
+                                <td>Quel Sport ?</td>
+                                <td>${data.nomSport}</td>
+                            </tr>
+                            <tr>
+                                <td>Quel Frequence ?</td>
+                                <td>${data.frequenceSport}</td>
+                            </tr>
+                            <tr>
+                                <td>Pratiquez Loisir ?</td>
+                                <td>${data.pratiqueLoisir}</td>
+                            </tr>
+                            <tr>
+                                <td>Quel Loisir</td>
+                                <td>${data.nomLoisir}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+                $("#contentModal").html(html);
+            }
+        })
+    }
+</script>
 {% endblock %}

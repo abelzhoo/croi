@@ -19,12 +19,12 @@ class LogementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('adressePermanente', TextType::class)
-            ->add('adresseTemporaire', TextType::class)
-            ->add('nomPays', CountryType::class)
-            ->add('province')
-            ->add('montantLoyer', NumberType::class)
-            ->add('montantSyndic', NumberType::class)
+            ->add('adressePermanente', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('adresseTemporaire', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('nomPays', CountryType::class, ['attr' => ['class' => 'span11']])
+            ->add('province', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('montantLoyer', NumberType::class, ['attr' => ['class' => 'span11']])
+            ->add('montantSyndic', NumberType::class, ['attr' => ['class' => 'span11']])
             //->add('membre', EntityType::class)
         ;
     }

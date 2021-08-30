@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/socials")
+ * @Route("/socials")
  */
 class SocialsController extends AbstractController
 {
@@ -26,7 +26,7 @@ class SocialsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_dashboard_social_create", methods={"GET","POST"})
+     * @Route("/nouveau-social", name="app_dashboard_social_create", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,17 +49,24 @@ class SocialsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_social_show", methods={"GET"})
+     * @Route("/{id}/voir", name="app_dashboard_social_show")
      */
-    public function show(Social $social): Response
+    public function show(Request $request): Response
     {
-        return $this->render('socials/show.html.twig', [
-            'social' => $social,
-        ]);
+        if($request->isXmlHttpRequest()){
+            $id = $request->request->get('id');
+            $social = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Social')->find((int)$id);
+
+            return $this->json($social, 200);
+
+        }
+        return new Response(null);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_social_edit", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_social_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Social $social): Response
     {
@@ -79,7 +86,7 @@ class SocialsController extends AbstractController
     }
 
     /**
-     * @Route("/supr={id}", name="app_dashboard_social_delete", methods={"POST"})
+     * @Route("/supr={id}/supprimer", name="app_dashboard_social_delete", methods={"POST"})
      */
     public function delete(Request $request, Social $social): Response
     {

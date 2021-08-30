@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Commity;
+use App\Form\CommityType;
 use App\Entity\Enfant;
 use App\Entity\Mariage;
 
@@ -14,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class EnfantType extends AbstractType
@@ -27,7 +29,7 @@ class EnfantType extends AbstractType
                     return $this->getSituation($enfant, 'ENFANT');
                 },
                 'choice_label' => 'nomFamille',
-                'multiple'      => true
+                'multiple' => true
             ])
             ->add('pere', EntityType::class, [
                 'class' => Commity::class,
@@ -42,18 +44,7 @@ class EnfantType extends AbstractType
                     return $this->getSituation($mere, 'MERE');
                 },
                 'choice_label' => 'nomFamille'
-            ])
-            ->add('parent', EntityType::class, [
-                'class' => Mariage::class,
-                'query_builder' => function($parent){
-                   return $this->getNameParent($parent);
-                },
             ]);
-    }
-
-    private function getNameParent($mariage){
-        return $mariage
-                    ->createQueryBuilder('m');
     }
 
     private function getSituation($commity, $situationFamiliale){

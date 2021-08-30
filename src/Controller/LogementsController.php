@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/logements")
+ * @Route("/logements")
  */
 class LogementsController extends AbstractController
 {
@@ -26,7 +26,7 @@ class LogementsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_dashboard_logement_create", methods={"GET","POST"})
+     * @Route("/nouveau-habitat", name="app_dashboard_logement_create", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -58,20 +58,28 @@ class LogementsController extends AbstractController
             $datas = $logementRepository->findByProvinces($province);
             return new JsonResponse($datas); 
         }
+        return new Response('ok');
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_logement_show", methods={"GET"})
+     * @Route("/{id}/voir", name="app_dashboard_logement_show")
      */
-    public function show(Logement $logement): Response
+    public function show(Request $request): Response
     {
-        return $this->render('logements/show.html.twig', [
-            'logement' => $logement,
-        ]);
+        if($request->isXmlHttpRequest()){
+            $id = $request->request->get('id');
+            $logement = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Logement')->find((int)$id);
+
+            return $this->json($logement, 200);
+
+        }
+        return new Response(null);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_logement_edit", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_logement_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Logement $logement): Response
     {
@@ -91,7 +99,7 @@ class LogementsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_logement_delete", methods={"POST"})
+     * @Route("/{id}/supprimer", name="app_dashboard_logement_delete", methods={"POST"})
      */
     public function delete(Request $request, Logement $logement): Response
     {

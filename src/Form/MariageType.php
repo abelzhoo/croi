@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class MariageType extends AbstractType
@@ -26,14 +27,19 @@ class MariageType extends AbstractType
                 'query_builder' => function($mari){
                     return $this->getSituation($mari, 'PERE');
                 },
-                'choice_label'  => 'nomFamille'
+                'choice_label'  => 'nomFamille',
+                'required' => true
             ])
             ->add('marie', EntityType::class,[
                 'class' => Commity::class,
                 'query_builder' => function($marie){
                     return $this->getSituation($marie, 'MERE');
                 },
-                'choice_label'  => 'nomFamille'
+                'required' => true,
+                'choice_label'  => 'nomFamille',
+            ])
+            ->add('nomFamille', TextType::class, [
+                'required' => true
             ]);
     }
 

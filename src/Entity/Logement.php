@@ -69,7 +69,7 @@ class Logement
     private $proprietaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="possession")
+     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="possession", cascade={"persist", "remove"})
      */
     private $commity;
 

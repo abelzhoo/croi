@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
-* @Route("/admin")
+* @Route("/mariage")
 */
 class MariageController extends AbstractController
 {
     /**
-    * @Route("/mariage", name="app_dashboard_mariage_read")
+    * @Route("/", name="app_dashboard_mariage_read")
     */
     public function index(MariageRepository $mariageRepository):Response
     {
@@ -25,7 +25,7 @@ class MariageController extends AbstractController
     }
 
     /**
-     * @Route("/mariage/new", name="app_dashboard_mariage_new")
+     * @Route("/nouveau-marie", name="app_dashboard_mariage_new")
      */
     public function new(Request $request):Response
     {
@@ -44,6 +44,26 @@ class MariageController extends AbstractController
         }
         return $this->render('mariage/new.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/modifier", name="app_dashboard_mariage_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Mariage $mariage): Response
+    {
+        $form = $this->createForm(MariageType::class, $mariage);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('app_dashboard_mariage_read', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('mariage/edit.html.twig', [
+            'mariage' => $mariage,
+            'form' => $form->createView(),
         ]);
     }
 

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/sports")
+ * @Route("/sports")
  */
 class SportsController extends AbstractController
 {
@@ -26,7 +26,7 @@ class SportsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_dashboard_sport_create", methods={"GET","POST"})
+     * @Route("/nouveau-sport", name="app_dashboard_sport_create", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,7 +39,7 @@ class SportsController extends AbstractController
             $entityManager->persist($sport);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sports_index');
+            return $this->redirectToRoute('app_dashboard_sport');
         }
 
         return $this->render('sports/new.html.twig', [
@@ -49,17 +49,24 @@ class SportsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_sport_show", methods={"GET"})
+     * @Route("/{id}/voir", name="app_dashboard_sport_show")
      */
-    public function show(Sport $sport): Response
+    public function show(Request $request): Response
     {
-        return $this->render('sports/show.html.twig', [
-            'sport' => $sport,
-        ]);
+        if($request->isXmlHttpRequest()){
+            $id = $request->request->get('id');
+            $sport = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Sport')->find((int)$id);
+
+            return $this->json($sport, 200);
+
+        }
+        return new Response(null);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_sport_edit", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_sport_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Sport $sport): Response
     {
@@ -69,7 +76,7 @@ class SportsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('sports_index');
+            return $this->redirectToRoute('app_dashboard_sport');
         }
 
         return $this->render('sports/edit.html.twig', [
@@ -79,7 +86,7 @@ class SportsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_sport_delete", methods={"POST"})
+     * @Route("/{id}/supprimer", name="app_dashboard_sport_delete", methods={"POST"})
      */
     public function delete(Request $request, Sport $sport): Response
     {
@@ -89,6 +96,6 @@ class SportsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('sports_index');
+        return $this->redirectToRoute('app_dashboard_sport');
     }
 }

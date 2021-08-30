@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
-* @Route("/admin")
+* @Route("/naissance")
 */
 class NaissanceController extends AbstractController
 {
     /**
-    * @Route("/enfants", name="app_dashboard_enfant_read")
+    * @Route("/", name="app_dashboard_enfant_read")
     */
     public function index(EnfantRepository $enfantRepository):Response
     {
@@ -25,18 +25,18 @@ class NaissanceController extends AbstractController
     }
 
     /**
-     * @Route("/enfant/new", name="app_dashboard_enfant_new")
+     * @Route("/nouveau-naitre", name="app_dashboard_enfant_new")
      */
     public function new(Request $request):Response
     {
         $enfant = new Enfant();
-
+  
         $form = $this->createForm(EnfantType::class, $enfant);
         $form->handleRequest($request);
-
+        
         if($form->isSubmitted() && $form->isValid()){
             $entityManager = $this->getDoctrine()->getManager();
-
+            dd($enfant);
             $entityManager->persist($enfant);
             $entityManager->flush();
 

@@ -23,11 +23,12 @@ security:
           - App\Security\LoginFormAuthenticator
       logout:
         path: app_logout
-        target: /
+        target: /login
         # where to redirect after logout
         # target: app_any_route
   role_hierarchy:
-    ROLE_ADMIN: [
+    ROLE_ADMIN:
+      [
         ROLE_USER,
         ROLE_SANTE,
         ROLE_EDUCATION,
@@ -40,18 +41,16 @@ security:
 
     # activate different ways to authenticate
     # https://symfony.com/doc/current/security.html#firewalls-authentication
-
     # https://symfony.com/doc/current/security/impersonating_user.html
     # switch_user: true
 
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-    - { path: ^/admin/*, roles: ROLE_SANTE }
-    - { path: ^/admin/*, roles: ROLE_EDUCATION }
-    - { path: ^/admin/*, roles: ROLE_SOCIAL }
-    - { path: ^/admin/*, roles: ROLE_SPORT }
-    - { path: ^/admin/*, roles: ROLE_LOGEMENT }
-    - { path: ^/admin/*, roles: ROLE_COMMERCE }
-    - { path: ^/admin/*, roles: ROLE_TABLIGH }
-  
+    - { path: ^/education, roles: ROLE_EDUCATION }
+    - { path: ^/sante, roles: ROLE_SANTE }
+    - { path: ^/social, roles: ROLE_SOCIAL }
+    - { path: ^/sport, roles: ROLE_SPORT }
+    - { path: ^/logement, roles: ROLE_LOGEMENT }
+    - { path: ^/commerce, roles: ROLE_COMMERCE }
+    - { path: ^/tabligh, roles: ROLE_TABLIGH }

@@ -45,18 +45,19 @@ class CommityController extends AbstractController
    /**
     * @Route("/situation/{situation}", name="app_dashboard_dad_read")
     */
-    public function getCommityDad(CommityRepository $commityRepository, $situation): Response
+    public function getPersonne(CommityRepository $commityRepository, $situation): Response
     {
         $listes = $commityRepository->findBy(['situationFamiliale' => $situation]);
         return $this->render('commity/index.html.twig', [
             'commities' => $listes,
-            'title' => $situation
+            'title' => $situation,
+            'current_menu' => $situation
         ]);
         
     } 
 
     /**
-     *@Route("/create", name="app_dashboard_commity_create", methods={"GET","POST"})
+     *@Route("/nouveau-personne", name="app_dashboard_commity_create", methods={"GET","POST"})
      */
     public function create(Request $request)
     {
@@ -71,6 +72,7 @@ class CommityController extends AbstractController
             $commity->setSocial($commity->getSocial());
             $commity->setTabligh($commity->getTabligh());
             $datas = $commity->getPossession();
+            
             foreach($datas as $data){
                 $commity->addPossession($data);
             }
@@ -89,9 +91,10 @@ class CommityController extends AbstractController
             foreach($datasProfessions as $data){
                 $commity->addProfession($data);
             }
-            
+  
             $entityManager->persist($commity);
             $entityManager->flush();
+
             return $this->redirectToRoute('app_dashboard_commity_read', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -101,17 +104,24 @@ class CommityController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_commity_show", methods={"GET"})
+     * @Route("/{id}/voir", name="app_dashboard_commity_show")
      */
-    public function show(Commity $commity): Response
+    public function show(Request $request):Response
     {
-        return $this->render('commity/show.html.twig', [
-            'commity' => $commity,
-        ]);
+        if($request->isXmlHttpRequest()){
+            $id = $request->request->get('id');
+            $commity = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Commity')->find((int)$id);
+
+            return $this->json($commity, 200);
+
+        }
+        return new Response('ok');
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_commity_edit", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_commity_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Commity $commity): Response
     {
@@ -131,15 +141,15 @@ class CommityController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_commity_delete", methods={"POST"})
+     * @Route("/{id}/supprimer", name="app_dashboard_commity_delete")
      */
     public function delete(Request $request, Commity $commity): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$commity->getId(), $request->request->get('_token'))) {
+        //if ($this->isCsrfTokenValid('delete'.$commity->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($commity);
             $entityManager->flush();
-        }
+        //}
 
         return $this->redirectToRoute('app_dashboard_commity_read', [], Response::HTTP_SEE_OTHER);
     }

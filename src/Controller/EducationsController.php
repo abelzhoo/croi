@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/educations")
+ * @Route("/educations")
  */
 class EducationsController extends AbstractController
 {
@@ -26,7 +26,7 @@ class EducationsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_dashboard_education_create", methods={"GET","POST"})
+     * @Route("/nouveau-etudiant", name="app_dashboard_education_create", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,22 +49,24 @@ class EducationsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_education_show", methods={"GET","POST"})
+     * @Route("/{id}/voir", name="app_dashboard_education_show")
      */
-    public function show(Education $education, Request $request)
+    public function show(Request $request)
     {
         if($request->isXmlHttpRequest()){
-            dd($request->get("education"));
+            $id = $request->request->get('id');
+            $education = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App\Entity\Education')->find((int)$id);
 
-            //return new JsonResponse();
+            return $this->json($education, 200);
+
         }
-        /*return $this->render('educations/_modal.html.twig', [
-            'education' => $education,
-        ]);*/
+        return new Response(null);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_dashboard_education_edit", methods={"GET","POST"})
+     * @Route("/{id}/modifier", name="app_dashboard_education_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Education $education): Response
     {
@@ -83,7 +85,7 @@ class EducationsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_dashboard_education_delete", methods={"POST"})
+     * @Route("/{id}/supprimer", name="app_dashboard_education_delete", methods={"POST"})
      */
     public function delete(Request $request, Education $education): Response
     {

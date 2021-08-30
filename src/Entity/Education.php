@@ -95,7 +95,7 @@ class Education
     private $aideEducation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="etudiant")
+     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="etudiant", cascade={"persist", "remove"})
      */
     private $commity;
     

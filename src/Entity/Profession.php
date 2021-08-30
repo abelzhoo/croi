@@ -43,9 +43,8 @@ class Profession
 
     /**
      * @Groups({"profession_read","profession_write"})
-     * @ORM\Column(type="string", length=255, length=255, nullable=true)
      */
-    private $profession;
+    private $profession = [];
 
     /**
      * @Groups({"profession_read","profession_write"})
@@ -60,7 +59,7 @@ class Profession
     private $locataire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="profession")
+     * @ORM\ManyToOne(targetEntity=Commity::class, inversedBy="profession", cascade={"persist", "remove"})
      */
     private $commity;
 
@@ -105,12 +104,12 @@ class Profession
         return $this;
     }
 
-    public function getProfession(): ?string
+    public function getProfession()
     {
         return $this->profession;
     }
 
-    public function setProfession(?string $profession): self
+    public function setProfession($profession)
     {
         $this->profession = $profession;
 

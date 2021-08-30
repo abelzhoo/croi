@@ -12,12 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/admin/accueil", name="app_dashboard_home")
+     * @Route("/", name="app_dashboard_home")
      */
     public function index(
         SanteRepository $santeRepository, CommityRepository $commity, LogementRepository $logementRepository,
@@ -36,35 +36,34 @@ class HomeController extends AbstractController
             if (!array_key_exists($santesData[$key]['maladie'], $santes)) {
                 $santes[$santesData[$key]['maladie']] = [];
             }
-            array_push($santes[$santesData[$key]['maladie']], [$tab['annee'], $tab['pourcentage']]);
+
+            //education
+            $educationData = $commity->findByEducation();
+            $etudiants = [];
+            $non_etudiants = [];
+
+            foreach($educationData as $value){
+                $tab['pourcentage'] = ($value['total'] * 100) / $total_commity;
+                $tab['annee'] = $value['debut'];
+                array_push($etudiants, [$tab['annee'], $tab['pourcentage']]);
+                array_push($non_etudiants, [$tab['annee'], 100-$tab['pourcentage']]);
+            }
+
+            // logements
+            $logDatas = $logementRepository->findByOwner();
+            $logements = [
+                'proprietaire' => ($logDatas['proprietaire']* 100) / $total_commity,
+                'locataire' => ($logDatas['locataire']* 100) / $total_commity,
+            ];
+
+            // social
+            $socials = $socialRepository->findByAide();
+            $socials = $this->setSocials($socials, $total_commity) ;
+
+            return $this->render("home/index.html.twig", compact(
+                'santes', 'etudiants', 'non_etudiants', 'total_commity', 'logements', 'socials')
+            );
         }
-
-        //education
-        $educationData = $commity->findByEducation();
-        $etudiants = [];
-        $non_etudiants = [];
-
-        foreach($educationData as $value){
-            $tab['pourcentage'] = ($value['total'] * 100) / $total_commity;
-            $tab['annee'] = $value['debut'];
-            array_push($etudiants, [$tab['annee'], $tab['pourcentage']]);
-            array_push($non_etudiants, [$tab['annee'], 100-$tab['pourcentage']]);
-        }
-
-        // logements
-        $logDatas = $logementRepository->findByOwner();
-        $logements = [
-            'proprietaire' => ($logDatas['proprietaire']* 100) / $total_commity,
-            'locataire' => ($logDatas['locataire']* 100) / $total_commity,
-        ];
-
-        // social
-        $socials = $socialRepository->findByAide();
-        $socials = $this->setSocials($socials, $total_commity) ;
-
-        return $this->render("home/index.html.twig", compact(
-            'santes', 'etudiants', 'non_etudiants', 'total_commity', 'logements', 'socials')
-        );
     }
 
     private function setSocials($datas, $total)
