@@ -30,12 +30,15 @@ class HomeController extends AbstractController
         $santesData = $santeRepository->findByDate();
         $santes = [] ;
 
-        foreach($santesData as $key => $value){
+        foreach ($santesData as $key => $value) {
             $tab['pourcentage'] = ($santesData[$key]['total'] * 100) / $total_commity;
             $tab['annee'] = $santesData[$key]['annee'];
             if (!array_key_exists($santesData[$key]['maladie'], $santes)) {
                 $santes[$santesData[$key]['maladie']] = [];
             }
+            array_push($santes[$santesData[$key]['maladie']], [$tab['annee'], $tab['pourcentage']]);
+        }
+
 
             //education
             $educationData = $commity->findByEducation();
@@ -63,7 +66,6 @@ class HomeController extends AbstractController
             return $this->render("home/index.html.twig", compact(
                 'santes', 'etudiants', 'non_etudiants', 'total_commity', 'logements', 'socials')
             );
-        }
     }
 
     private function setSocials($datas, $total)
