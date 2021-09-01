@@ -34,9 +34,6 @@
 
       <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> ACCUEIL</a>
         <ul>
-          <li {% if app.request.get('_route') == "app_dashboard_home" %} class="active" {% endif %}>
-              <a href="{{ path('app_dashboard_home') }}"><i class="icon icon-home"></i> <span>Accueil</span></a>
-          </li>
           <li class="submenu">
             {% if is_granted('ROLE_ADMIN') %}
               <a href="#"><i class="icon icon-list"></i><span>MEMBRE DU COMMITE</span></a>
@@ -59,11 +56,15 @@
                 <a href="{{ path('app_dashboard_read_sante') }}"><i class="icon icon-signal"></i> <span>DEPARTEMENT SANTE</span></a> </li>
               {% endif %}
           </li>
-          
-          <li {% if app.request.get('_route') == "app_dashboard_logement_read" %} class="active" {% endif %}>
-            {% if is_granted('ROLE_LOGEMENT') %}
-              <a href="{{ path('app_dashboard_logement_read') }}"><i class="icon icon-inbox"></i> <span>DEPARTEMENT LOGEMENT</span></a>
-            {% endif %}
+
+          <li class="submenu">
+          {% if is_granted('ROLE_LOGEMENT') %}
+            <a href="#"><i class="icon icon-info-sign"></i> <span>DEPARTEMENT LOGEMENT</span></a>
+            <ul>
+              <li {% if app.request.get('_route') == "app_dashboard_logement_read" %} class="active" {% endif %}><a href="{{ path('app_dashboard_logement_read') }}">LOGEMENT</a></li>
+              <li {% if app.request.get('_route') == "app_dashboard_map" %} class="active" {% endif %}><a href="{{ path('app_dashboard_map') }}">MAP</a></li>
+            </ul>
+          {% endif %}
           </li>
           <li {% if app.request.get('_route') == "app_dashboard_education_read" %} class="active" {% endif %}>
             {% if is_granted('ROLE_EDUCATION') %}
@@ -85,17 +86,23 @@
               <a href="{{ path('app_dashboard_sport') }}"><i class="icon icon-fullscreen"></i> <span>DEPARTEMENT SPORT</span></a>
             {% endif %}
           </li>
-          <li {% if app.request.get('_route') == "app_dashboard_tabligh" %} class="active submenu" {% endif %}> 
+          <li {% if app.request.get('_route') == "app_dashboard_tabligh" %} class="active" {% endif %}> 
             {% if is_granted('ROLE_TABLIGH') %}
               <a href="{{ path('app_dashboard_tabligh') }}"><i class="icon icon-th-list"></i> <span>DEPARTEMENT TABLIGH</span> <span class="label label-important"></span></a>
             {% endif %}
           </li>
-          <li class="submenu"> <a href="#"><i class="icon icon-info-sign"></i> <span>EVENEMENTIELLE</span> <span class="label label-important">3</span></a>
+          <li class="submenu">
+          {% if is_granted('ROLE_ADMIN') %}
+            <a href="#"><i class="icon icon-info-sign"></i> <span>EVENEMENTIELLE</span></a>
             <ul>
-              <li><a href="{{path('app_dashboard_mariage_read')}}">MARIAGE</a></li>
-              <li><a href="{{path('app_dashboard_enfant_read')}}">NAISSANCE</a></li>
-              <li><a href="{{path('app_dashboard_deces_read')}}">DECES</a></li>
+              <li {% if app.request.get('_route') == "app_dashboard_mariage_read" %} class="active" {% endif %}><a href="{{path('app_dashboard_mariage_read')}}">MARIAGE</a></li>
+              <li {% if app.request.get('_route') == "app_dashboard_enfant_read" %} class="active" {% endif %}><a href="{{path('app_dashboard_enfant_read')}}">NAISSANCE</a></li>
+              <li {% if app.request.get('_route') == "app_dashboard_deces_read" %} class="active" {% endif %}><a href="{{path('app_dashboard_deces_read')}}">DECES</a></li>
             </ul>
+          {% endif %}
+          </li>
+          <li> 
+              <a href="{{ path('app_dashboard_static') }}"><i class="icon icon-th-list"></i> <span>STATISTIQUE</span> <span class="label label-important"></span></a>
           </li>
         </ul>
       </div>

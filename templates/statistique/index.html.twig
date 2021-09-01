@@ -1,0 +1,446 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div id="content">
+    <div id="content-header">
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Statistiques</a></div>
+    </div>
+
+    <div class="container-fluid">
+    <div class="quick-actions_homepage">
+        <ul class="quick-actions">
+            {% if is_granted('ROLE_SANTE') %}
+                <li class="bg_lb span3">
+                    <a href="#sante" onClick="analyticSante()"> <i class="icon-dashboard"></i> <span class="label label-important"></span> SANTE </a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_EDUCATION') %}
+                <li class="bg_lg span3">
+                    <a href="#education" onClick="analyticEducation()"> <i class="icon-signal"></i> EDUCATION</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_LOGEMENT') %}
+                <li class="bg_ly span3">
+                    <a href="#logement" onClick="analyticLogement()"> <i class="icon-inbox"></i><span class="label label-success"></span> LOGEMENT </a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_SOCIAL') %}
+                <li class="bg_lo span3">
+                    <a href="#social" onClick="analyticSocial()"> <i class="icon-th"></i> SOCIAL</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_COMMERCE') %}
+                <li class="bg_ls span3">
+                    <a href="#" onClick="analyticProfession()"> <i class="icon-fullscreen"></i> PROFESSION</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_SPORT') %}
+                <li class="bg_ls span3">
+                    <a href="#" onClick=""> <i class="icon-fullscreen"></i> SPORT</a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_TABLIGH') %}
+                <li class="bg_ls span3">
+                    <a href="#" onClick=""> <i class="icon-fullscreen"></i> TABLIGH</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    {% if is_granted('ROLE_SANTE') %}
+     <div class="row-fluid">
+      <div class="span12" id="sante">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Santé</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="sante"></div>
+            <p id="choicesSante"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_EDUCATION') %}
+    <div class="row-fluid">
+      <div class="span12" id="education">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Education</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="etudiant"></div>
+            <p id="choicesEtudiant"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_LOGEMENT') %}
+    <div class="row-fluid">
+      <div class="span12" id="logement">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Logement</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="logement"></div>
+            <p id="choicesLogement" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_SOCIAL') %}
+    <div class="row-fluid">
+      <div class="span12" id="social">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Social</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="social"></div>
+            <p id="choicesSocial" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_COMMERCE') %}
+    <div class="row-fluid">
+      <div class="span12" id="profession">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Profession</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="profession"></div>
+            <p id="choicesProfession" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_SPORT') %}
+    <div class="row-fluid">
+      <div class="span12" id="sport">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Sport</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="sport"></div>
+            <p id="choicesSport" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_TABLIGH') %}
+    <div class="row-fluid">
+      <div class="span12" id="tabligh">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-signal"></i> </span>
+            <h5>Tabligh</h5>
+          </div>
+          <div class="widget-content">
+            <div id="placeholder" class="tabligh"></div>
+            <p id="choicesTabligh" class="mychoices"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+<!--End-Chart-box-->
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            var max_date = new Date().getFullYear();
+
+             /***
+             * Santes
+             * @type {string}
+             */
+            var choicesSante = $("#choicesSante");
+            var santes = {{ santes|json_encode|raw }};
+            var cancer = JSON.stringify(santes.cancer);
+            var orl = JSON.stringify(santes.orl);
+            var diabete = JSON.stringify(santes.diabete);
+            var cardio = JSON.stringify(santes.cardio);
+            var digestif = JSON.stringify(santes.digestif);
+            var metabolique = JSON.stringify(santes.metabolique);
+            var oculaire = JSON.stringify(santes.oculaire);
+            var osetarticulation = JSON.stringify(santes.osetarticulation);
+            var genitaux = JSON.stringify(santes.genitaux);
+            var peau = JSON.stringify(santes.peau);
+            var pulmonie = JSON.stringify(santes.pulmonie);
+
+            var datasetsSantes = {
+                "Cancer": {
+                    label: "Cancer",
+                    data: JSON.parse(cancer)
+                },
+                "ORL": {
+                    label: "ORL",
+                    data: JSON.parse(orl)
+                },
+                "diabete": {
+                    label: "Diabete",
+                    data: JSON.parse(diabete)
+                },
+                "cardio": {
+                    label: "cardio",
+                    data: JSON.parse(cardio)
+                },
+                "digestif": {
+                    label: "digestif",
+                    data: JSON.parse(digestif)
+                },
+                "metabolique": {
+                    label: "metabolique",
+                    data: JSON.parse(metabolique)
+                },
+                "oculaire": {
+                    label: "oculaire",
+                    data: JSON.parse(oculaire)
+                },
+                "osetarticulation": {
+                    label: "os et articulation",
+                    data: JSON.parse(osetarticulation)
+                },
+                "genitaux": {
+                    label: "genitaux",
+                    data: JSON.parse(genitaux)
+                },
+                "peau": {
+                    label: "peau",
+                    data: JSON.parse(peau)
+                },
+                "pulmonie": {
+                    label: "pulmonie",
+                    data: JSON.parse(pulmonie)
+                }
+            };
+            chartLine( choicesSante, datasetsSantes, ".sante" );
+
+            /***
+             * Etudiants / Non etudiants
+             * @type {string}
+             */
+            var choicesEtudiant = $("#choicesEtudiant");
+            var etudiants = JSON.stringify({{ etudiants|json_encode|raw }});
+            var non_etudiants = JSON.stringify({{ non_etudiants|json_encode|raw }});
+            var datasetsEtudiants = {
+                "etudiant": {
+                    label: "Étudiant",
+                    data: JSON.parse(etudiants)
+                },
+                "non_etudiant": {
+                    label: "Non étudiant",
+                    data: JSON.parse(non_etudiants)
+                }
+            };
+            chartLine(choicesEtudiant, datasetsEtudiants, ".etudiant" );
+
+
+            /***
+             * Logements
+             * @type {string}
+             */
+            var choicesLogement = $("#choicesLogement");
+            var logements = {{ logements|json_encode|raw }};
+            var proprietaire = JSON.stringify([ [max_date -1 , 0], [max_date, logements.proprietaire] ]);
+            var locataire = JSON.stringify([ [max_date - 1, 0], [max_date, logements.locataire] ]);
+
+            var datasetsLogement = {
+                "Proprietaire": {
+                    label: "Proprietaire",
+                    data: JSON.parse(proprietaire)
+                },
+                "Locataire": {
+                    label: "Locataire",
+                    data: JSON.parse(locataire)
+                }
+            };
+            chartLine( choicesLogement, datasetsLogement, ".logement" );
+
+             /***
+             * Social
+             * @type {string}
+             */
+            var choicesSocial = $("#choicesSocial");
+            var socials = {{ socials|json_encode|raw }};
+            var nourriture = JSON.stringify([ [max_date -1 , 0], [max_date, socials.nourriture] ]);
+            var nourriture_non = JSON.stringify([ [max_date -1 , 0], [max_date, socials.nourriture_non] ]);
+            var education = JSON.stringify([ [max_date -1 , 0], [max_date, socials.education] ]);
+            var education_non = JSON.stringify([ [max_date -1 , 0], [max_date, socials.education_non] ]);
+            var social = JSON.stringify([ [max_date -1 , 0], [max_date, socials.social] ]);
+            var social_non = JSON.stringify([ [max_date -1 , 0], [max_date, socials.social_non] ]);
+            var sante = JSON.stringify([ [max_date -1 , 0], [max_date, socials.sante] ]);
+            var sante_non = JSON.stringify([ [max_date -1 , 0], [max_date, socials.sante_non] ]);
+            var travail = JSON.stringify([ [max_date -1 , 0], [max_date, socials.travail] ]);
+            var travail_non = JSON.stringify([ [max_date -1 , 0], [max_date, socials.travail_non] ]);
+
+            console.log('travail_non', travail_non)
+
+            var datasetsSocials = {
+                "Aide nourriture": {
+                    label: "Aide nourriture",
+                    data: JSON.parse(nourriture)
+                },
+                "Sans aide nourriture": {
+                    label: "Sans aide nourriture",
+                    data: JSON.parse(nourriture_non)
+                },
+                "Aide education": {
+                    label: "Aide education",
+                    data: JSON.parse(education)
+                },
+                "Sans aide education": {
+                    label: "Sans aide education",
+                    data: JSON.parse(education_non)
+                },
+                "Aide social": {
+                    label: "Aide social",
+                    data: JSON.parse(social)
+                },
+                "Sans aide social": {
+                    label: "Sans aide social",
+                    data: JSON.parse(social_non)
+                },
+                "Aide sante": {
+                    label: "Aide sante",
+                    data: JSON.parse(sante)
+                },
+                "Sans aide sante": {
+                    label: "Sans aide sante",
+                    data: JSON.parse(sante_non)
+                },
+                "Aide Travail": {
+                    label: "Aide travail",
+                    data: JSON.parse(travail)
+                },
+                "Sans aide Travail": {
+                    label: "Sans aide travail",
+                    data: JSON.parse(travail_non)
+                }
+            };
+            chartLine( choicesSocial, datasetsSocials, ".social" );
+
+            /** 
+            * Profesion
+            */
+            var choicesProfession = $("#choicesProfession");
+            var professions = {{ professions|json_encode|raw }};
+            var avecTravail = JSON.stringify([ [max_date -1 , 0], [max_date, professions.avecTravail] ]);
+            var sansTravail = JSON.stringify([ [max_date -1 , 0], [max_date, professions.sansTravail] ]);
+
+            var datasetsProfession = {
+                "avecTravail": {
+                    label: "Avec Travail",
+                    data: JSON.parse(avecTravail)
+                },
+                "sansTravail": {
+                    label: "Sans Travail",
+                    data: JSON.parse(sansTravail)
+                }
+            };
+            chartLine( choicesProfession, datasetsProfession, ".profession" );
+
+            /**
+            *
+            * @param inputChoice
+            * @param datasets
+            * @param classPlaceholder
+            */
+            function chartLine( inputChoice, datasets, classPlaceholder){
+                // hard-code color indices to prevent them from shifting as
+                // countries are turned on/off
+                var i = 0;
+                var choiceContainer = inputChoice;
+
+                $.each(datasets, function(key, val) {
+                    val.color = i;
+                    ++i;
+                });
+
+                // insert checkboxes
+                // inputChoice = $("#choices");
+                $.each(datasets, function(key, val) {
+                    choiceContainer.append('<br/><input type="checkbox" name="' + key +
+                        '" checked="checked" id="id' + key + '">' +
+                        '<label for="id' + key + '">'
+                        + val.label + '</label>');
+                });
+
+                // choiceContainer.find("input").click(plotAccordingToChoices(inputChoice, datasets, classPlaceholder));
+
+                // === Point hover in chart === //
+                var previousPoint = null;
+                $("#placeholder" + classPlaceholder).bind("plothover", function (event, pos, item) {
+
+                    if (item) {
+                        if (previousPoint != item.dataIndex) {
+                            previousPoint = item.dataIndex;
+
+                            $('#tooltip').fadeOut(200,function(){
+                                $(this).remove();
+                            });
+                            var x = item.datapoint[0].toFixed(0),
+                                y = item.datapoint[1].toFixed(0);
+
+                            maruti.flot_tooltip(item.pageX, item.pageY,item.series.label + "  " + x + " = " + y + "%");
+                        }
+
+                    } else {
+                        $('#tooltip').fadeOut(200,function(){
+                            $(this).remove();
+                        });
+                        previousPoint = null;
+                    }
+                });
+
+                plotAccordingToChoices(inputChoice, datasets, classPlaceholder);
+                checkOneLine(inputChoice, datasets, classPlaceholder);
+            }
+
+            function plotAccordingToChoices(choiceContainer, datasets, classPlaceholder) {
+                var data = [];
+
+                choiceContainer.find("input:checked").each(function () {
+                    var key = $(this).attr("name");
+                    if (key && datasets[key])
+                        data.push(datasets[key]);
+                });
+
+                if (data.length > 0)
+                    $.plot($("#placeholder" + classPlaceholder), data,
+                        {
+                            series: {
+                                lines: { show: true },
+                                points: { show: true }
+                            },
+                            grid: { hoverable: true, clickable: true },
+                            yaxis: { min: 0, max: 100 },
+                            xaxis: { tickDecimals: 0, max: max_date }
+                        });
+            }
+
+            function checkOneLine(choice, datasets, classPlaceholder) {
+                choice.find("input").click(function (){
+                    plotAccordingToChoices(choice, datasets, classPlaceholder)
+                });
+            }
+        });
+    </script>
+{% endblock %}

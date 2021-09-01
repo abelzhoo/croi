@@ -20,6 +20,10 @@ class SocialsController extends AbstractController
      */
     public function index(SocialRepository $socialRepository): Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('socials/index.html.twig', [
             'socials' => $socialRepository->findAll(),
         ]);

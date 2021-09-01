@@ -19,12 +19,43 @@ class LogementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('adressePermanente', TextType::class, ['attr' => ['class' => 'span11']])
-            ->add('adresseTemporaire', TextType::class, ['attr' => ['class' => 'span11']])
-            ->add('nomPays', CountryType::class, ['attr' => ['class' => 'span11']])
-            ->add('province', TextType::class, ['attr' => ['class' => 'span11']])
-            ->add('montantLoyer', NumberType::class, ['attr' => ['class' => 'span11']])
-            ->add('montantSyndic', NumberType::class, ['attr' => ['class' => 'span11']])
+            ->add('adressePermanente', TextType::class, [
+                'attr' => ['class' => 'span11'],
+                'required' => false
+            ])
+            ->add('adresseTemporaire', TextType::class, [
+                'attr' => ['class' => 'span11'],
+                'required' => false
+            ])
+            ->add('montantLoyer', NumberType::class, [
+                'attr' => ['class' => 'span11'],
+                'required' => false
+            ])
+            ->add('montantSyndic', NumberType::class, [
+                'attr' => ['class' => 'span11'],
+                'required' => false
+            ])
+            ->add('nomPays', ChoiceType::class, [
+                'choices' => [
+                    "Choisissez le pays" => ""
+                ],
+                'attr' => ['class' => 'span11 pays'],
+                'required' => false
+            ])
+            ->add('province', ChoiceType::class, [
+                'choices' => [
+                    "Choisissez le province" => ""
+                ],
+                'attr' => ['class' => 'span11 province'],
+                'required' => false
+            ])
+            ->add('region', ChoiceType::class, [
+                'choices' => [
+                    "Choisissez la région" => ""
+                ],
+                'attr' => ['class' => 'span11 region'],
+                'required' => false
+            ])
             //->add('membre', EntityType::class)
         ;
     }

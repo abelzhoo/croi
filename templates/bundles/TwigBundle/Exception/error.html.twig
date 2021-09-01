@@ -1,17 +1,26 @@
+{% block stylesheets  %}
+  <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.min.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/matrix-style.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/matrix-media.css') }}" />
+{% endblock %}
 {% block content %}
-<div class="row-fluid">
-  <div class="span12">
-    <div class="widget-box">
-        <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-            <h5 style="color:red">Erreur</h5>
-        </div>
-        <div class="widget-content">
+  <div class="container-fluid" style="margin-top: 10%">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
+            <h5>ERREUR</h5>
+          </div>
+          <div class="widget-content">
             <div class="error_ex">
-            <h1 style="color:red">ERREUR</h1>
-            <h3>404</h3>
-            <a class="btn btn-warning btn-big"  href="{{path('app_dashboard_home')}}">Retour à la page d'accueil</a> </div>
+              <h1>OUPS UNE ERREUR SE PRODUISE</h1>
+              <p>Veuillez verifier ce que vous avez fais sinon va vers la page d'accueil</p>
+              <a class="btn btn-warning btn-big"  href="{{ path('app_dashboard_home') }}">page d'acceuil</a> </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
-</div>
+
 {% endblock %}

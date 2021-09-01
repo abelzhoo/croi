@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Logement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,24 +15,51 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LogementRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $connexion;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Logement::class);
+        $this->connexion = $this->getEntityManager()->getConnection();;
     }
 
     public function findByOwner(){
-        $conn = $this->getEntityManager()->getConnection();
-
         $sql = "SELECT  COUNT(*) as total 
             FROM `logement`as l INNER JOIN commity as c ON c.id = l.commity_id
             WHERE proprietaire = :condition GROUP  BY adresse_permanente";
 
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->connexion->prepare($sql);
         $stmt->execute(['condition' => 'OUI']);
         $owner =  $stmt->fetchOne();
         $stmt->execute(['condition' => 'NON']);
         $locataire =  $stmt->fetchOne();
         return ['proprietaire' => $owner, 'locataire' => $locataire];
+    }
+
+    public function findByMaxAge($region)
+    {
+        $masculin = "SELECT COUNT(*) as total, COUNT(c.sexe) as gens FROM `logement` as l INNER JOIN `commity` as c ON l.commity_id = c.id 
+        WHERE l.region = :region AND (DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(date_naissance, '%Y')) > 18 AND c.sexe = 'MASCULIN'";
+
+        $feminin = "SELECT COUNT(*) as total, COUNT(c.sexe) as gens FROM `logement` as l INNER JOIN `commity` as c ON l.commity_id = c.id 
+        WHERE l.region = :region AND (DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(date_naissance, '%Y')) > 18 AND c.sexe = 'FEMININ'";
+
+        $mineur = "SELECT COUNT(*) as total, COUNT(c.sexe) as gens FROM `logement` as l INNER JOIN `commity` as c ON l.commity_id = c.id 
+        WHERE l.region = :region AND (DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(date_naissance, '%Y')) < 18 AND (c.sexe = 'MASCULIN' OR c.sexe = 'FEMININ')";
+
+        $stmt1 = $this->connexion->prepare($masculin);
+        $stmt2 = $this->connexion->prepare($feminin);
+        $stmt3 = $this->connexion->prepare($mineur);
+
+        $stmt1->execute(['region' => $region]);
+        $stmt2->execute(['region' => $region]);
+        $stmt3->execute(['region' => $region]);
+
+        $masculins = $stmt1->fetchOne();
+        $feminins = $stmt2->fetchOne();
+        $mineurs = $stmt3->fetchOne();
+
+        return  ['masculin' => $masculins, 'feminin' => $feminins, 'mineur' => $mineurs];
     }
 
     /*

@@ -39,7 +39,7 @@ class SanteRepository extends ServiceEntityRepository
 
         $stmt = $conn->prepare($sql);
         $santes = [];
-        $maladies = ['cancer', 'orl', 'diabete'] ;
+        $maladies = ['cancer', 'orl', 'diabete', 'pulmonie', 'digestif', 'cardio', 'osetarticulation', 'genitaux', 'metabolique', 'oculaire', 'peau'] ;
         $count_maladies = count($maladies);
 
 

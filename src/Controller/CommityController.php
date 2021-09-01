@@ -37,6 +37,10 @@ class CommityController extends AbstractController
      */
     public function index(CommityRepository $commityRepository): Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('commity/index.html.twig', [
             'commities' => $commityRepository->findAll(),
         ]);
@@ -95,7 +99,7 @@ class CommityController extends AbstractController
                 $data->setCommity($commity) ;
                 $commity->addProfession($data);
             }
-  
+            dd($commity);
             $entityManager->persist($commity);
             $entityManager->flush();
 

@@ -20,6 +20,10 @@ class SantesController extends AbstractController
      */
     public function index(SanteRepository $santeRepository): Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('santes/index.html.twig', [
             'santes' => $santeRepository->findAll()
         ]);

@@ -21,6 +21,10 @@ class DecesController extends AbstractController
     */
     public function index(DecesRepository $decesRepository):Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('deces/index.html.twig', [
             'deces' => $decesRepository->findAll()
         ]);

@@ -73,6 +73,11 @@ class Logement
      */
     private $commity;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $region;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -183,6 +188,18 @@ class Logement
     public function setCommity(?Commity $commity): self
     {
         $this->commity = $commity;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(?string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }

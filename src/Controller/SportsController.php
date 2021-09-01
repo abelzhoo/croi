@@ -20,6 +20,10 @@ class SportsController extends AbstractController
      */
     public function index(SportRepository $sportRepository): Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('sports/index.html.twig', [
             'sports' => $sportRepository->findAll(),
         ]);

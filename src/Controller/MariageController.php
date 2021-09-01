@@ -21,6 +21,10 @@ class MariageController extends AbstractController
     */
     public function index(MariageRepository $mariageRepository):Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('mariage/index.html.twig', ['mariages' => $mariageRepository->findAll()]);
     }
 

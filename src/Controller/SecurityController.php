@@ -24,14 +24,15 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEBERED')){
+        if($this->get('security.token_storage')->getToken()->getUser() != "anon."){
             return $this->redirectToRoute('app_dashboard_home');
+        }else{
+            
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
         }
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
     /**

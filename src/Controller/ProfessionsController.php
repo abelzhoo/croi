@@ -20,6 +20,10 @@ class ProfessionsController extends AbstractController
      */
     public function index(ProfessionRepository $professionRepository): Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('professions/index.html.twig', [
             'professions' => $professionRepository->findAll(),
         ]);

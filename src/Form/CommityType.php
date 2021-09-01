@@ -29,7 +29,7 @@ class CommityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nomFamille', TextType::class)
+            /*->add('nomFamille', TextType::class)
             ->add('prenomFamille', TextType::class)
             ->add('sexe', ChoiceType::class, [
                 "choices" => [
@@ -68,15 +68,16 @@ class CommityType extends AbstractType
             ->add('imageFile', VichImageType::class)
             ->add('sante', SanteType::class)
             ->add('social' , SocialType::class)
-            ->add('tabligh', TablighType::class)
+            ->add('tabligh', TablighType::class)*/
             ->add('possession', CollectionType::class, [
                 'entry_type' => LogementType::class,
                 'entry_options' =>  ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
 
-            ])
-            ->add('etudiant', CollectionType::class, [
+            ]);
+            //->add('save', SubmitType::class, ['label' => 'Ajouter Commité', 'attr' => ['class' => 'btn btn-success']]);
+            /*->add('etudiant', CollectionType::class, [
                 'entry_type' => EducationType::class,
                 'entry_options' =>  ['label' => false],
                 'allow_add' => true,
@@ -93,7 +94,7 @@ class CommityType extends AbstractType
                 'entry_options' =>  ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true
-            ]);
+            ]);*/
             //->add('save', SubmitType::class, ['label' => 'Ajouter Commité', 'attr' => ['class' => 'btn btn-success']]);
     }
 

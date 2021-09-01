@@ -20,6 +20,10 @@ class EducationsController extends AbstractController
      */
     public function index(EducationRepository $educationRepository): Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('educations/index.html.twig', [
             'educations' => $educationRepository->findAll(),
         ]);

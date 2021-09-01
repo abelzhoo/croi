@@ -20,6 +20,10 @@ class LogementsController extends AbstractController
      */
     public function index(LogementRepository $logementRepository): Response
     {
+        if($this->get('security.token_storage')->getToken()->getUser() == "anon."){
+            return $this->redirectToRoute('app_login');
+        }
+ 
         return $this->render('logements/index.html.twig', [
             'logements' => $logementRepository->findAll(),
         ]);
@@ -47,18 +51,21 @@ class LogementsController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    
     /**
-    * @Route("/province", name="personne_peer_province", methods={"GET","POST"})
-    */
-    public function getNameProvince(LogementRepository $logementRepository, Request $request): Response
-    {  
+     * @Route("/map_logement", name="app_dashboard_map")
+     */
+    public function setMap(LogementRepository $logementRepository, Request $request): Response
+    {
         if($request->isXmlHttpRequest()) {
-            $province = $request->request->get('region');
-            $datas = $logementRepository->findByProvinces($province);
-            return new JsonResponse($datas); 
+            $region = $request->request->get('dataRegions');
+            $datas = $logementRepository->findByMaxAge($region);
+
+            return $this->json($datas, 200);
+            //return new JsonResponse($datas); 
         }
-        return new Response('ok');
+
+        return $this->render("logements/map.html.twig");
     }
 
     /**
@@ -67,7 +74,7 @@ class LogementsController extends AbstractController
     public function show(Request $request): Response
     {
         if($request->isXmlHttpRequest()){
-            $id = $request->request->get('id');
+            $id = $request->request->get('data');
             $logement = $this->getDoctrine()
                             ->getManager()
                             ->getRepository('App\Entity\Logement')->find((int)$id);

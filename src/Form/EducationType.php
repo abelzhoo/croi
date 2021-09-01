@@ -32,8 +32,8 @@ class EducationType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'span11']
             ])
-            ->add('nomPays', CountryType::class, ['attr' => ['class' => 'span11']])
-            ->add('province', TextType::class, ['attr' => ['class' => 'span11']])
+            ->add('nomPays', ChoiceType::class, ['attr' => ['class' => 'span11 paysEducation']])
+            ->add('province', ChoiceType::class, ['attr' => ['class' => 'span11 provinceEducation']])
             ->add('niveauEtude', TextType::class, ['attr' => ['class' => 'span11']])
             ->add('aideEducation', ChoiceType::class,[
                 'choices' => [
@@ -44,6 +44,7 @@ class EducationType extends AbstractType
                 'attr' => ['class' => 'span11']
             ]);
     }
+    
 
     public function configureOptions(OptionsResolver $resolver)
     {

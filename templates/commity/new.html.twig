@@ -12,34 +12,62 @@
 
 {% block javascripts %}
 <script src="{{ asset('js/jquery.min.js') }}"></script> 
-<script src="{{ asset('js/jquery.steps.min.js') }}"></script> 
+<script src="{{ asset('js/jquery.steps.min.js') }}"></script>
+<script src="{{asset('js/paysData.js')}}"></script>
     <script>
       /*START LOGEMENT*/
       (function(){
-
+    
         let $collectionLogement;
         let $boutonAjouterLogement = $('<button type="button" class="add_logement_link"><i class="icon-plus"></i></button>');
         let $nouveauLogement = $('<li></li>').append($boutonAjouterLogement);
 
         jQuery(document).ready(function() {
+
           $collectionLogement = $('ul.logements');
           $collectionLogement.find('li').each(function(){
             addLogementDeleteLink($(this));
           });
           $collectionLogement.append($nouveauLogement);
           $collectionLogement.data('index', $collectionLogement.find('input').length);
+
+          addLogementForm($collectionLogement, $nouveauLogement);
+
           $boutonAjouterLogement.on('click', function(e){
-            addLogementForm($collectionLogement, $nouveauLogement);
+             addLogementForm($collectionLogement, $nouveauLogement);
           });
 
           function addLogementForm($collectionLogement, $newLinkLi){
+            let datasPays = getCountry();
             let prototypeLogement = $collectionLogement.data('prototype');
             let indexLogement = $collectionLogement.data('index');
             let newFormLogement = prototypeLogement;
             newFormLogement = newFormLogement.replace(/__name__/g, indexLogement);
             $collectionLogement.data('index', indexLogement + 1);
+            
             let $newFormLiLogement = $('<li></li>').append(newFormLogement);
+
+            datasPays.forEach(function(data){
+              $newFormLiLogement.find(`select#commity_possession_${indexLogement}_nomPays`).append(`<option value=${JSON.stringify(data)}>${data}</option>`);
+            })
+
+            $newFormLiLogement.find(`select#commity_possession_${indexLogement}_nomPays`).change(function(e){
+              let provinces = getProvince(e.target.value);
+              $newFormLiLogement.find(`select#commity_possession_${indexLogement}_province option`).remove()
+              provinces.forEach(function(data){
+                $newFormLiLogement.find(`select#commity_possession_${indexLogement}_province`).append(`<option value='${data}'>${data}</option>`)
+              })
+            })
+
+            $newFormLiLogement.find(`select#commity_possession_${indexLogement}_province`).change(function(e){
+              let regions = getRegion(e.target.value);
+              $newFormLiLogement.find(`select#commity_possession_${indexLogement}_region option`).remove()
+              regions.forEach(function(data){
+                $newFormLiLogement.find(`select#commity_possession_${indexLogement}_region`).append(`<option value='${data.toUpperCase()}'>${data}</option>`)
+              })
+            });
             $newLinkLi.before($newFormLiLogement);
+ 
             addLogementDeleteLink($newFormLiLogement);
           }
 
@@ -51,12 +79,13 @@
             })
           }
         });
-        
-        let $collectionEducation;
+        })()
+        /*let $collectionEducation;
         let $boutonAjouterEducation = $('<button type="button" class="add_education_link"><i class="icon-plus"></i></button>');
         let $nouveauEducation = $('<li></li>').append($boutonAjouterEducation);
 
         jQuery(document).ready(function() {
+
           $collectionEducation = $('ul.educations');
           $collectionEducation.find('li').each(function(){
             addEducationDeleteLink($(this));
@@ -64,8 +93,55 @@
 
           $collectionEducation.append($nouveauEducation);
           $collectionEducation.data('index', $collectionEducation.find('input').length);
+          
+          /** EDUCATION 
+          $(document).ready(function(){
+            datasPays.forEach(function(data){
+              $("select.paysEducation").append(`<option>${data}</option>`);
+            });
+
+            $("select.paysEducation").change(function(){
+              $("select.provinceEducation option").remove();
+              let provinces = getProvince($("select.paysEducation").val())
+              provinces.forEach(function(data){
+                  $("select.provinceEducation").append(`<option>${data}</option>`);
+              })
+            });
+
+            $("select.province").change(function(e){
+              $("select.region option").remove();
+              regions = getRegion($("select.province").val())
+              regions.forEach(function(data){
+                $("select.region").append(`<option>${data}</option>`);
+              })
+            });
+
+          });
+          /** END EDUCATION 
+
+          addEducationForm($collectionEducation, $nouveauEducation);
+
           $boutonAjouterEducation.on('click', function(e){
             addEducationForm($collectionEducation, $nouveauEducation);
+            $(document).ready(function(){
+              datasPays.forEach(function(data){
+                $("select.paysEducation").append(`<option>${data}</option>`);
+              })
+
+              $("select.paysEducation").change(function(){
+                let provinces = getProvince($("select.paysEducation").val())
+                provinces.forEach(function(data){
+                    $("select.provinceEducation").append(`<option>${data}</option>`);
+                })
+              });
+
+              /*$("select.province").change(function(){
+                let regions = getRegion($("select.province").val())
+                regions.forEach(function(data){
+                  $("select.region").append(`<option>${data}</option>`);
+                })
+              });
+            });
           });
 
           function addEducationForm($collectionEducation, $newLinkLi){
@@ -100,6 +176,9 @@
 
           $collectionSport.append($nouveauSport);
           $collectionSport.data('index', $collectionSport.find('input').length);
+
+          addSportForm($collectionSport, $nouveauSport);
+
           $boutonAjouterSport.on('click', function(e){
             addSportForm($collectionSport, $nouveauSport);
           });
@@ -136,6 +215,9 @@
 
           $collectionProfession.append($nouveauProfession);
           $collectionProfession.data('index', $collectionProfession.find('input').length);
+
+          addProfessionForm($collectionProfession, $nouveauProfession);
+
           $boutonAjouterProfession.on('click', function(e){
             addProfessionForm($collectionProfession, $nouveauProfession);
           });
@@ -159,7 +241,7 @@
             })
           }
         });
-      })()
+      })()*/
 
       let form = $("#wizard");
 
@@ -167,15 +249,13 @@
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        onFinished: function(event, current){
-          console.log(current);
-          alert('test')
+        onFinished: function(event){
           form.submit();
         }
       })
 
       for(let i = 1; i <= 7; i++){
-        document.querySelector(`#steps-uid-${i}`).style.display = "none";
+        $(`#steps-uid-${i}`).css({display:'none'});
       }
       
     </script>
